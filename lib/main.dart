@@ -112,7 +112,7 @@ class _MyFlutterFormState extends State<MyFlutterForm> {
         ),
         ElevatedButton(
           onPressed: () async {
-            print("Button clicked");
+            print("Post Button clicked");
             if (nameController.text.isEmpty ||
                 ageController.text.isEmpty ||
                 cityController.text.isEmpty) {
@@ -144,7 +144,19 @@ class _MyFlutterFormState extends State<MyFlutterForm> {
               cityController.clear();
             }
           },
-          child: Icon(Icons.text_fields),
+          child: Text('Add Student'),
+        ),
+        Padding(
+          padding: EdgeInsets.all(16.0),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(primary: Colors.red),
+            onPressed: () async {
+              print("Delete button clicked");
+              Future<post_student.PostStudent> delete_student =
+                  deleteStudent(context, '2012');
+            },
+            child: Text('Delete Student'),
+          ),
         ),
         FutureBuilder<List<student.Student>>(
           future: futureStudents,

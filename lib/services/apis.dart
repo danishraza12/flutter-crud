@@ -38,10 +38,80 @@ void postStudents(
       context: context,
       builder: (context) {
         return const AlertDialog(
+          title: Text('Message!'),
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
+          ),
           content: Text('Successfully saved the data'),
+          contentTextStyle: TextStyle(
+            color: Colors.green,
+            fontSize: 15.0,
+          ),
         );
       },
     );
+  }
+}
+
+Future<post_student.PostStudent> deleteStudent(context, String id) async {
+  String url = 'https://localhost:7175/api/CRUD/$id';
+
+  final http.Response response = await http.delete(
+    Uri.parse(url),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  );
+
+  post_student.PostStudent deleteResponse =
+      post_student.PostStudent.fromJson(json.decode(response.body));
+  if (deleteResponse.statusCode == "200") {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const AlertDialog(
+          title: Text('Message!'),
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
+          ),
+          content: Text('Successfully deleted data'),
+          contentTextStyle: TextStyle(
+            color: Colors.green,
+            fontSize: 15.0,
+            fontWeight: FontWeight.bold,
+          ),
+        );
+      },
+    );
+    return post_student.PostStudent.fromJson(jsonDecode(response.body));
+  } else {
+    if (deleteResponse.statusMessage!.isEmpty) {
+      String msg = deleteResponse.statusMessage.toString();
+    }
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const AlertDialog(
+          title: Text('Message!'),
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
+          ),
+          content: Text("Unable to delete"),
+          contentTextStyle: TextStyle(
+            color: Colors.orange,
+            fontSize: 15.0,
+            fontWeight: FontWeight.bold,
+          ),
+        );
+      },
+    );
+    return post_student.PostStudent.fromJson(jsonDecode(response.body));
   }
 }
 
