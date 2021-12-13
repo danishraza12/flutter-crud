@@ -120,7 +120,19 @@ class _MyFlutterFormState extends State<MyFlutterForm> {
                 context: context,
                 builder: (context) {
                   return const AlertDialog(
+                    title: Text(
+                      'Warning!',
+                      textAlign: TextAlign.center,
+                    ),
                     content: Text('Enter all values'),
+                    contentTextStyle: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 15,
+                    ),
+                    titleTextStyle: TextStyle(
+                        color: Colors.orange,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold),
                   );
                 },
               );
