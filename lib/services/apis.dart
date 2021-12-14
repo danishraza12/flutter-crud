@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import '../models/student.dart' as student;
 import '../models/post_student.dart' as post_student;
 import 'package:http/http.dart' as http;
@@ -20,6 +22,24 @@ Future<List<student.Student>> fetchStudents() async {
     return students;
   } else {
     throw Exception('Failed to load students');
+  }
+}
+
+// Function to GET students by ID
+Future<student.Student> getStudentById(int id) async {
+  String url = 'https://localhost:7175/api/CRUD/$id';
+  final response = await http.get(Uri.parse(url), headers: {
+    "Accept": "application/json",
+    "Access-Control_Allow_Origin": "*"
+  });
+
+  student.Student getStudent =
+      student.Student.fromJson(json.decode(response.body));
+
+  if (response.statusCode == 200) {
+    return getStudent;
+  } else {
+    throw Exception('Failed to update student.');
   }
 }
 
