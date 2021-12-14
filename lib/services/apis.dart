@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 Future<List<student.Student>> fetchStudents() async {
-  final response = await http.get(Uri.parse('https://localhost:7175/api/CRUD'),
+  final response = await http.get(Uri.parse('https://localhost:7048/api/Test'),
       headers: {
         "Accept": "application/json",
         "Access-Control_Allow_Origin": "*"
@@ -28,7 +28,7 @@ void postStudents(
   String body = json.encode(data);
 
   http.Response response = await http.post(
-    Uri.parse('https://localhost:7175/api/CRUD'),
+    Uri.parse('https://localhost:7048/api/Test'),
     headers: {"Content-Type": "application/json"},
     body: body,
   );
