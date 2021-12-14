@@ -34,88 +34,68 @@ class MyFlutterForm extends StatefulWidget {
 }
 
 class _MyFlutterFormState extends State<MyFlutterForm> {
-  var nameController = new TextEditingController();
-  var ageController = new TextEditingController();
-  var cityController = new TextEditingController();
-
-  late Future<List<student.Student>> futureStudents;
-
-  // @override
-  // void setState(VoidCallback fn) {
-  //   // TODO: implement setState
-  //   super.setState(fn);
-  // }
+  final _formKey = GlobalKey<FormState>();
+  late Future<List<student.Student>> futureStudent;
 
   @override
   void initState() {
     super.initState();
-    futureStudents = fetchStudents();
+    futureStudent = fetchStudents();
   }
 
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    nameController.dispose();
-    ageController.dispose();
-    cityController.dispose();
-    super.dispose();
-  }
+  final NameController = TextEditingController();
+  final AgeController = TextEditingController();
+  final CityController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    // Build a Form widget using the _formKey created above.
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+          padding: const EdgeInsets.only(top: 15, left: 20),
           child: Text(
-            'Add Information',
+            'ADD DETAILS',
             style: TextStyle(
-                color: Colors.blue, fontSize: 25, fontWeight: FontWeight.bold),
+                fontWeight: FontWeight.bold, fontSize: 30, color: Colors.blue),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          // child: TextField(
-          child: TextFormField(
-            controller: nameController,
-            decoration: const InputDecoration(
+          padding: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
+          child: TextField(
+            controller: NameController,
+            decoration: InputDecoration(
               border: OutlineInputBorder(),
-              labelText: 'Enter name',
-              labelStyle: TextStyle(color: Colors.grey),
+              labelText: 'Name',
             ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextFormField(
-            // child: TextField(
-            controller: ageController,
-            decoration: const InputDecoration(
-              // border: UnderlineInputBorder(),
+          padding: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
+          child: TextField(
+            controller: AgeController,
+            decoration: InputDecoration(
               border: OutlineInputBorder(),
-              labelText: 'Enter age',
+              labelText: 'Age',
             ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextFormField(
-            // child: TextField(
-            controller: cityController,
-            decoration: const InputDecoration(
-              // border: UnderlineInputBorder(),
+          padding: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
+          child: TextField(
+            controller: CityController,
+            decoration: InputDecoration(
               border: OutlineInputBorder(),
-              labelText: 'Enter city',
+              labelText: 'City',
             ),
           ),
         ),
         ElevatedButton(
           onPressed: () async {
             print("Post Button clicked");
-            if (nameController.text.isEmpty ||
-                ageController.text.isEmpty ||
-                cityController.text.isEmpty) {
+            if (NameController.text.isEmpty ||
+                AgeController.text.isEmpty ||
+                CityController.text.isEmpty) {
               showDialog(
                 context: context,
                 builder: (context) {
@@ -137,90 +117,104 @@ class _MyFlutterFormState extends State<MyFlutterForm> {
                 },
               );
             } else {
-              postStudents(context, nameController.text, ageController.text,
-                  cityController.text);
-              nameController.clear();
-              ageController.clear();
-              cityController.clear();
+              postStudents(context, NameController.text, AgeController.text,
+                  CityController.text);
+              NameController.clear();
+              AgeController.clear();
+              CityController.clear();
             }
           },
           child: Text('Add Student'),
         ),
-        Padding(
-          padding: EdgeInsets.all(16.0),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(primary: Colors.red),
-            onPressed: () async {
-              print("Delete button clicked");
-              Future<post_student.PostStudent> delete_student =
-                  deleteStudent(context, '2012');
-            },
-            child: Text('Delete Student'),
-          ),
-        ),
         FutureBuilder<List<student.Student>>(
-          future: futureStudents,
-          builder: (context, AsyncSnapshot snapshot) {
-            if (snapshot.data != null) {
-              if (!snapshot.hasData) {
-                return Center(child: CircularProgressIndicator());
-              } else {
-                return Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: SizedBox(
-                        height: 200.0,
-                        child: new GridView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: snapshot.data.length,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2),
-                          itemBuilder: (BuildContext ctxt, int index) {
-                            // return new Text(snapshot.data[index].name);
-                            return new Card(
-                              child: new GridTile(
-                                  child: Text(snapshot.data[index].name)),
-                            );
-                          },
+            future: futureStudent,
+            builder: (context, AsyncSnapshot snapshot) {
+              // ignore: avoid_print
+              print(snapshot.data);
+              if (snapshot.data != null) {
+                if (snapshot.hasData) {
+                  return Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: SizedBox(
+                          height: 200,
+                          width: 200,
+                          child: new GridView.builder(
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            gridDelegate:
+                                const SliverGridDelegateWithMaxCrossAxisExtent(
+                                    maxCrossAxisExtent: 200,
+                                    childAspectRatio: 3 / 2,
+                                    crossAxisSpacing: 20,
+                                    mainAxisSpacing: 20),
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (BuildContext ctxt, int index) {
+                              return Card(
+                                  elevation: 4.0,
+                                  shadowColor: Colors.blue,
+                                  // margin: EdgeInsets.all(3),
+                                  shape: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                          color: Colors.blue, width: 1)),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.center,
+                                        margin:
+                                            const EdgeInsets.only(top: 16.0),
+                                        child: Text(snapshot.data[index].name),
+                                      ),
+                                      Container(
+                                        alignment: Alignment.center,
+                                        child: Text(snapshot.data[index].age),
+                                      ),
+                                      Container(
+                                        alignment: Alignment.center,
+                                        child: Text(snapshot.data[index].city),
+                                      ),
+                                      ListTile(
+                                        title: Row(
+                                          children: <Widget>[
+                                            Expanded(
+                                                child: FlatButton(
+                                              onPressed: () {},
+                                              child: Text("Delete"),
+                                              textColor: Colors.red,
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 1),
+                                            )),
+                                            Expanded(
+                                                child: FlatButton(
+                                              onPressed: () {},
+                                              child: Text("Edit"),
+                                              textColor: Colors.blue,
+                                            )),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ));
+                            },
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                );
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  );
+                } else {
+                  return CircularProgressIndicator(); // loading
+                }
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
               }
-            } else {
-              return Center(child: CircularProgressIndicator());
-            }
-          },
-        ),
-        // FutureBuilder<post_student.PostStudent>(
-        //     future: postStudent,
-        //     builder: (context, AsyncSnapshot snapshot) {
-        //       if (snapshot.data != null) {
-        //         if (!snapshot.hasData) {
-        //           return Center(child: CircularProgressIndicator());
-        //         } else {
-        //           //  print(response.toString());
-        //           if (snapshot.data.statusCode == "200") {
-        //             showDialog(
-        //               context: context,
-        //               builder: (context) {
-        //                 return AlertDialog(
-        //                   // Retrieve the text the user has entered by using the
-        //                   // TextEditingController.
-        //                   content: Text('Successfully saved the data'),
-        //                 );
-        //               },
-        //             );
-        //           }
-        //           return Text('data');
-        //         }
-        //       } else {
-        //         return Center(child: CircularProgressIndicator());
-        //       }
-        //     }),
+
+              // By default, show a loading spinner.
+
+              else {
+                return CircularProgressIndicator(); // loading
+              }
+            })
       ],
     );
   }
