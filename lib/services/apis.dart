@@ -78,21 +78,27 @@ void postStudents(
 }
 
 //Function to UPDATE student
-Future<student.Student> updateStudent(
-    String id, student.Student updateStudent) async {
-  String url = 'https://localhost:7175/api/CRUD/$id';
+Future<student.Student> updateStudent(student.Student updatedStudent) async {
+  String url = 'https://localhost:7175/api/CRUD';
+  Map data = {
+    'id': updatedStudent.id,
+    'name': updatedStudent.name,
+    'age': updatedStudent.age,
+    'city': updatedStudent.city
+  };
+  String body = json.encode(data);
 
-  final response = await http.put(
-    Uri.parse(url),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String?>{
-      'name': updateStudent.name,
-      'age': updateStudent.age,
-      'city': updateStudent.city
-    }),
-  );
+  final response = await http.put(Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: body
+      // body: jsonEncode(<String, String?>{
+      //   'name': updateStudent.name,
+      //   'age': updateStudent.age,
+      //   'city': updateStudent.city
+      // }),
+      );
 
   if (response.statusCode == 200) {
     return student.Student.fromJson(jsonDecode(response.body));

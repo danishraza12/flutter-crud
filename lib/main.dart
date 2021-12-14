@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'services/apis.dart';
 import 'package:http/http.dart' as http;
 import 'models/student.dart' as student;
+import './widgets/update_dialog.dart';
 import 'dart:convert';
 import '../models/post_student.dart' as post_student;
 
@@ -76,7 +77,7 @@ class _MyFlutterFormState extends State<MyFlutterForm> {
   final NameController = TextEditingController();
   final AgeController = TextEditingController();
   final CityController = TextEditingController();
-  late Future<student.Student> _updateStudent;
+  // late Future<student.Student> _updateStudent;
 
   @override
   Widget build(BuildContext context) {
@@ -223,16 +224,12 @@ class _MyFlutterFormState extends State<MyFlutterForm> {
                                             Expanded(
                                                 child: FlatButton(
                                               onPressed: () {
-                                                student.Student data =
-                                                    new student.Student(
-                                                        name:
-                                                            NameController.text,
-                                                        age: AgeController.text,
-                                                        city: CityController
-                                                            .text);
-                                                String body = json.encode(data);
-                                                _updateStudent =
-                                                    updateStudent('5', data);
+                                                updateStudentDialog(
+                                                    context,
+                                                    snapshot.data[index].name,
+                                                    snapshot.data[index].age,
+                                                    snapshot.data[index].city,
+                                                    snapshot.data[index].id);
                                               },
                                               child: Text("Edit"),
                                               textColor: Colors.blue,
