@@ -26,7 +26,9 @@ class MyApp extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(top: 25),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        print("Test Button");
+                      },
                       child: Text("Test Button"),
                     ),
                   ),
@@ -164,7 +166,7 @@ class _MyFlutterFormState extends State<MyFlutterForm> {
                     children: <Widget>[
                       Expanded(
                         child: SizedBox(
-                          height: 200,
+                          height: 300,
                           width: 200,
                           child: new GridView.builder(
                             padding: EdgeInsets.symmetric(horizontal: 15),
@@ -206,10 +208,12 @@ class _MyFlutterFormState extends State<MyFlutterForm> {
                                             Expanded(
                                                 child: FlatButton(
                                               onPressed: () {
-                                                Future<post_student.PostStudent>
-                                                    delete_student =
-                                                    deleteStudent(
-                                                        context, '1005');
+                                                print(
+                                                    "Delete pressed, ID: ${snapshot.data[index].id}");
+                                                // Future<post_student.PostStudent>
+                                                //     delete_student =
+                                                deleteStudent(context,
+                                                    snapshot.data[index].id);
                                               },
                                               child: Text("Delete"),
                                               textColor: Colors.red,

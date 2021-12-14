@@ -82,7 +82,7 @@ Future<student.Student> updateStudent(
 }
 
 //Function to DELETE student
-Future<post_student.PostStudent> deleteStudent(context, String id) async {
+Future<post_student.PostStudent> deleteStudent(context, int id) async {
   String url = 'https://localhost:7175/api/CRUD/$id';
 
   final http.Response response = await http.delete(
