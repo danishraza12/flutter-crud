@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, unnecessary_new
+// ignore_for_file: prefer_const_constructors, unnecessary_new, unused_import
 
 import 'package:flutter/material.dart';
 import 'services/apis.dart';
@@ -166,14 +166,14 @@ class _MyFlutterFormState extends State<MyFlutterForm> {
                     children: <Widget>[
                       Expanded(
                         child: SizedBox(
-                          height: 300,
+                          height: 250,
                           width: 200,
                           child: new GridView.builder(
                             padding: EdgeInsets.symmetric(horizontal: 15),
                             gridDelegate:
                                 const SliverGridDelegateWithMaxCrossAxisExtent(
-                                    maxCrossAxisExtent: 200,
-                                    childAspectRatio: 3 / 2,
+                                    maxCrossAxisExtent: 180,
+                                    childAspectRatio: 5 / 4,
                                     crossAxisSpacing: 20,
                                     mainAxisSpacing: 20),
                             itemCount: snapshot.data.length,
