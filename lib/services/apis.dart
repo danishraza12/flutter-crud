@@ -4,8 +4,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
+// Function to GET all students
 Future<List<student.Student>> fetchStudents() async {
-  final response = await http.get(Uri.parse('https://localhost:7048/api/Test'),
+  final response = await http.get(Uri.parse('https://localhost:7175/api/CRUD'),
       headers: {
         "Accept": "application/json",
         "Access-Control_Allow_Origin": "*"
@@ -22,13 +23,14 @@ Future<List<student.Student>> fetchStudents() async {
   }
 }
 
+//Function to CREATE new student
 void postStudents(
     BuildContext context, String name, String age, String city) async {
   Map data = {'name': name, 'age': age, 'city': city};
   String body = json.encode(data);
 
   http.Response response = await http.post(
-    Uri.parse('https://localhost:7048/api/Test'),
+    Uri.parse('https://localhost:7175/api/CRUD'),
     headers: {"Content-Type": "application/json"},
     body: body,
   );
@@ -55,6 +57,31 @@ void postStudents(
   }
 }
 
+//Function to UPDATE student
+Future<student.Student> updateStudent(
+    String id, student.Student updateStudent) async {
+  String url = 'https://localhost:7175/api/CRUD/$id';
+
+  final response = await http.put(
+    Uri.parse(url),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String?>{
+      'name': updateStudent.name,
+      'age': updateStudent.age,
+      'city': updateStudent.city
+    }),
+  );
+
+  if (response.statusCode == 200) {
+    return student.Student.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to update student.');
+  }
+}
+
+//Function to DELETE student
 Future<post_student.PostStudent> deleteStudent(context, String id) async {
   String url = 'https://localhost:7175/api/CRUD/$id';
 

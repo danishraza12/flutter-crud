@@ -15,12 +15,40 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    const appTitle = 'Flutter Form';
+    const appTitle = 'Flutter CRUD';
     return MaterialApp(
         title: appTitle,
         home: Scaffold(
+            drawer: new Drawer(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Container(
+                    margin: const EdgeInsets.only(top: 25),
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Text("Test Button"),
+                    ),
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Text('v1.1'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             appBar: AppBar(
               title: const Text(appTitle),
+              leading: Builder(
+                builder: (context) => IconButton(
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  icon: Icon(Icons.menu),
+                ),
+              ),
             ),
             body: const MyFlutterForm()));
   }
@@ -46,6 +74,7 @@ class _MyFlutterFormState extends State<MyFlutterForm> {
   final NameController = TextEditingController();
   final AgeController = TextEditingController();
   final CityController = TextEditingController();
+  late Future<student.Student> _updateStudent;
 
   @override
   Widget build(BuildContext context) {
@@ -129,8 +158,6 @@ class _MyFlutterFormState extends State<MyFlutterForm> {
         FutureBuilder<List<student.Student>>(
             future: futureStudent,
             builder: (context, AsyncSnapshot snapshot) {
-              // ignore: avoid_print
-              print(snapshot.data);
               if (snapshot.data != null) {
                 if (snapshot.hasData) {
                   return Row(
@@ -178,7 +205,12 @@ class _MyFlutterFormState extends State<MyFlutterForm> {
                                           children: <Widget>[
                                             Expanded(
                                                 child: FlatButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                Future<post_student.PostStudent>
+                                                    delete_student =
+                                                    deleteStudent(
+                                                        context, '1005');
+                                              },
                                               child: Text("Delete"),
                                               textColor: Colors.red,
                                               padding: EdgeInsets.symmetric(
@@ -186,7 +218,18 @@ class _MyFlutterFormState extends State<MyFlutterForm> {
                                             )),
                                             Expanded(
                                                 child: FlatButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                student.Student data =
+                                                    new student.Student(
+                                                        name:
+                                                            NameController.text,
+                                                        age: AgeController.text,
+                                                        city: CityController
+                                                            .text);
+                                                String body = json.encode(data);
+                                                _updateStudent =
+                                                    updateStudent('5', data);
+                                              },
                                               child: Text("Edit"),
                                               textColor: Colors.blue,
                                             )),
