@@ -39,7 +39,7 @@ class _AllStudentsState extends State<AllStudents> {
                   children: <Widget>[
                     Expanded(
                       child: SizedBox(
-                        height: 550,
+                        height: MediaQuery.of(context).size.height,
                         width: 200,
                         child: GridView.builder(
                           padding: EdgeInsets.symmetric(horizontal: 15),

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import '../services/apis.dart';
 
@@ -26,8 +28,10 @@ class _AddStudentState extends State<AddStudent> {
                 fontWeight: FontWeight.bold, fontSize: 30, color: Colors.blue),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
+        Container(
+          width: 300,
+          alignment: Alignment.center,
+          margin: new EdgeInsets.symmetric(horizontal: 35, vertical: 12),
           child: TextField(
             controller: NameController,
             decoration: InputDecoration(
@@ -36,8 +40,10 @@ class _AddStudentState extends State<AddStudent> {
             ),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
+        Container(
+          width: 300,
+          margin: new EdgeInsets.symmetric(horizontal: 35, vertical: 12),
+          alignment: Alignment.center,
           child: TextField(
             controller: AgeController,
             decoration: InputDecoration(
@@ -46,8 +52,10 @@ class _AddStudentState extends State<AddStudent> {
             ),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
+        Container(
+          width: 300,
+          margin: new EdgeInsets.symmetric(horizontal: 35, vertical: 12),
+          alignment: Alignment.center,
           child: TextField(
             controller: CityController,
             decoration: InputDecoration(
