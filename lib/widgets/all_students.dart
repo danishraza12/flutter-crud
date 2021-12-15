@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import '../models/student.dart' as student;
 import 'package:flutter/material.dart';
 import '../services/apis.dart';
@@ -14,7 +16,7 @@ class _AllStudentsState extends State<AllStudents> {
   late Future<List<student.Student>> futureStudent;
 
   student.Student studentToUpdate =
-      new student.Student(name: "", age: "", city: "", id: null);
+      student.Student(name: "", age: "", city: "", id: null);
 
   @override
   void initState() {
@@ -37,9 +39,9 @@ class _AllStudentsState extends State<AllStudents> {
                   children: <Widget>[
                     Expanded(
                       child: SizedBox(
-                        height: 250,
+                        height: 550,
                         width: 200,
-                        child: new GridView.builder(
+                        child: GridView.builder(
                           padding: EdgeInsets.symmetric(horizontal: 15),
                           gridDelegate:
                               const SliverGridDelegateWithMaxCrossAxisExtent(
