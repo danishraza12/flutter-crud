@@ -92,13 +92,7 @@ Future<student.Student> updateStudent(student.Student updatedStudent) async {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: body
-      // body: jsonEncode(<String, String?>{
-      //   'name': updateStudent.name,
-      //   'age': updateStudent.age,
-      //   'city': updateStudent.city
-      // }),
-      );
+      body: body);
 
   if (response.statusCode == 200) {
     return student.Student.fromJson(jsonDecode(response.body));

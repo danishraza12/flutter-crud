@@ -4,15 +4,15 @@ import 'dart:convert';
 import '../services/apis.dart';
 
 void updateStudentDialog(
-    BuildContext context, String name, String age, String city, int id) async {
+    BuildContext context, student.Student studentToUpdate) async {
   final UpdateNameController = TextEditingController();
   final UpdateAgeController = TextEditingController();
   final UpdateCityController = TextEditingController();
   late Future<student.Student> _updateStudent;
 
-  UpdateNameController.text = name;
-  UpdateAgeController.text = age;
-  UpdateCityController.text = city;
+  UpdateNameController.text = studentToUpdate.name.toString();
+  UpdateAgeController.text = studentToUpdate.age.toString();
+  UpdateCityController.text = studentToUpdate.city.toString();
   return showDialog(
       context: context,
       builder: (context) {
@@ -44,7 +44,7 @@ void updateStudentDialog(
               ElevatedButton(
                   onPressed: () {
                     student.Student updatedStudent = new student.Student(
-                        id: id,
+                        id: studentToUpdate.id,
                         name: UpdateNameController.text,
                         age: UpdateAgeController.text,
                         city: UpdateCityController.text);

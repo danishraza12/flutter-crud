@@ -77,7 +77,6 @@ class _MyFlutterFormState extends State<MyFlutterForm> {
   final NameController = TextEditingController();
   final AgeController = TextEditingController();
   final CityController = TextEditingController();
-  // late Future<student.Student> _updateStudent;
 
   @override
   Widget build(BuildContext context) {
@@ -224,12 +223,19 @@ class _MyFlutterFormState extends State<MyFlutterForm> {
                                             Expanded(
                                                 child: FlatButton(
                                               onPressed: () {
+                                                student.Student
+                                                    studentToUpdate =
+                                                    new student.Student(
+                                                        name: snapshot
+                                                            .data[index].name,
+                                                        age: snapshot
+                                                            .data[index].age,
+                                                        city: snapshot
+                                                            .data[index].city,
+                                                        id: snapshot
+                                                            .data[index].id);
                                                 updateStudentDialog(
-                                                    context,
-                                                    snapshot.data[index].name,
-                                                    snapshot.data[index].age,
-                                                    snapshot.data[index].city,
-                                                    snapshot.data[index].id);
+                                                    context, studentToUpdate);
                                               },
                                               child: Text("Edit"),
                                               textColor: Colors.blue,
