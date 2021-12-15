@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, unnecessary_new, deprecated_member_use, non_constant_identifier_names, unused_local_variable
+
 import 'package:flutter/material.dart';
 import '../models/student.dart' as student;
 import 'dart:convert';
@@ -15,45 +17,71 @@ void updateStudentDialog(
   UpdateCityController.text = studentToUpdate.city.toString();
   return showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
-          title: Text('Update Student'),
+          title: Center(
+              child: Text(
+            'Update Student',
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 20, color: Colors.blue),
+          )),
+          insetPadding: EdgeInsets.symmetric(horizontal: 50, vertical: 50),
           content: Column(
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              TextField(
-                controller: UpdateNameController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Name',
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 1, vertical: 12),
+                child: TextField(
+                  controller: UpdateNameController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Name',
+                  ),
                 ),
               ),
-              TextField(
-                controller: UpdateAgeController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Age',
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 1, vertical: 12),
+                child: TextField(
+                  controller: UpdateAgeController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Age',
+                  ),
                 ),
               ),
-              TextField(
-                controller: UpdateCityController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'City',
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 1, vertical: 12),
+                child: TextField(
+                  controller: UpdateCityController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'City',
+                  ),
                 ),
               ),
-              ElevatedButton(
-                  onPressed: () {
-                    student.Student updatedStudent = new student.Student(
-                        id: studentToUpdate.id,
-                        name: UpdateNameController.text,
-                        age: UpdateAgeController.text,
-                        city: UpdateCityController.text);
-                    // String body = json.encode(updatedStudent);
-                    _updateStudent = updateStudent(updatedStudent);
-                  },
-                  child: Text("Update"))
             ],
           ),
+          actions: <Widget>[
+            FlatButton(
+                child: Text('Cancel'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                }),
+            FlatButton(
+                child: Text('Update'),
+                textColor: Colors.blue,
+                onPressed: () {
+                  student.Student updatedStudent = new student.Student(
+                      id: studentToUpdate.id,
+                      name: UpdateNameController.text,
+                      age: UpdateAgeController.text,
+                      city: UpdateCityController.text);
+                  // String body = json.encode(updatedStudent);
+                  _updateStudent = updateStudent(updatedStudent);
+                  Navigator.pop(context, false);
+                })
+          ],
         );
       });
 }
