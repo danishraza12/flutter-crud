@@ -7,6 +7,7 @@ import 'models/student.dart' as student;
 import './widgets/update_dialog.dart';
 import 'dart:convert';
 import '../models/post_student.dart' as post_student;
+import './widgets/all_students.dart';
 
 void main() => runApp(const MyApp());
 
@@ -19,41 +20,11 @@ class MyApp extends StatelessWidget {
     const appTitle = 'Flutter CRUD';
     return MaterialApp(
         title: appTitle,
-        home: Scaffold(
-            drawer: new Drawer(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.only(top: 25),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        print("Test Button");
-                      },
-                      child: Text("Test Button"),
-                    ),
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Text('v1.1'),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            appBar: AppBar(
-              title: const Text(appTitle),
-              leading: Builder(
-                builder: (context) => IconButton(
-                  onPressed: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                  icon: Icon(Icons.menu),
-                ),
-              ),
-            ),
-            body: const MyFlutterForm()));
+        initialRoute: '/',
+        routes: {
+          '/all': (context) => const AllStudents(),
+        },
+        home: MyHome());
   }
 }
 
@@ -65,15 +36,6 @@ class MyFlutterForm extends StatefulWidget {
 }
 
 class _MyFlutterFormState extends State<MyFlutterForm> {
-  final _formKey = GlobalKey<FormState>();
-  late Future<List<student.Student>> futureStudent;
-
-  @override
-  void initState() {
-    super.initState();
-    futureStudent = fetchStudents();
-  }
-
   final NameController = TextEditingController();
   final AgeController = TextEditingController();
   final CityController = TextEditingController();
@@ -121,8 +83,9 @@ class _MyFlutterFormState extends State<MyFlutterForm> {
             ),
           ),
         ),
+        // Text("$_ctr"),
         ElevatedButton(
-          onPressed: () async {
+          onPressed: () {
             print("Post Button clicked");
             if (NameController.text.isEmpty ||
                 AgeController.text.isEmpty ||
@@ -150,6 +113,7 @@ class _MyFlutterFormState extends State<MyFlutterForm> {
             } else {
               postStudents(context, NameController.text, AgeController.text,
                   CityController.text);
+
               NameController.clear();
               AgeController.clear();
               CityController.clear();
@@ -157,115 +121,54 @@ class _MyFlutterFormState extends State<MyFlutterForm> {
           },
           child: Text('Add Student'),
         ),
-        FutureBuilder<List<student.Student>>(
-            future: futureStudent,
-            builder: (context, AsyncSnapshot snapshot) {
-              if (snapshot.data != null) {
-                if (snapshot.hasData) {
-                  return Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: SizedBox(
-                          height: 250,
-                          width: 200,
-                          child: new GridView.builder(
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            gridDelegate:
-                                const SliverGridDelegateWithMaxCrossAxisExtent(
-                                    maxCrossAxisExtent: 180,
-                                    childAspectRatio: 5 / 4,
-                                    crossAxisSpacing: 20,
-                                    mainAxisSpacing: 20),
-                            itemCount: snapshot.data.length,
-                            itemBuilder: (BuildContext ctxt, int index) {
-                              return Card(
-                                  elevation: 4.0,
-                                  shadowColor: Colors.blue,
-                                  // margin: EdgeInsets.all(3),
-                                  shape: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                          color: Colors.blue, width: 1)),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        alignment: Alignment.center,
-                                        margin:
-                                            const EdgeInsets.only(top: 16.0),
-                                        child: Text(snapshot.data[index].name),
-                                      ),
-                                      Container(
-                                        alignment: Alignment.center,
-                                        child: Text(snapshot.data[index].age),
-                                      ),
-                                      Container(
-                                        alignment: Alignment.center,
-                                        child: Text(snapshot.data[index].city),
-                                      ),
-                                      ListTile(
-                                        title: Row(
-                                          children: <Widget>[
-                                            Expanded(
-                                                child: FlatButton(
-                                              onPressed: () {
-                                                print(
-                                                    "Delete pressed, ID: ${snapshot.data[index].id}");
-                                                // Future<post_student.PostStudent>
-                                                //     delete_student =
-                                                deleteStudent(context,
-                                                    snapshot.data[index].id);
-                                              },
-                                              child: Text("Delete"),
-                                              textColor: Colors.red,
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 1),
-                                            )),
-                                            Expanded(
-                                                child: FlatButton(
-                                              onPressed: () {
-                                                student.Student
-                                                    studentToUpdate =
-                                                    new student.Student(
-                                                        name: snapshot
-                                                            .data[index].name,
-                                                        age: snapshot
-                                                            .data[index].age,
-                                                        city: snapshot
-                                                            .data[index].city,
-                                                        id: snapshot
-                                                            .data[index].id);
-                                                updateStudentDialog(
-                                                    context, studentToUpdate);
-                                              },
-                                              child: Text("Edit"),
-                                              textColor: Colors.blue,
-                                            )),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ));
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  );
-                } else {
-                  return CircularProgressIndicator(); // loading
-                }
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-
-              // By default, show a loading spinner.
-
-              else {
-                return CircularProgressIndicator(); // loading
-              }
-            })
       ],
     );
+  }
+}
+
+class MyHome extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        drawer: Drawer(
+          child: Container(
+            color: Colors.white,
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                ListTile(
+                  title: Text('All Students',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 18,
+                      )),
+                  contentPadding: EdgeInsets.fromLTRB(20, 5, 0, 5),
+                  trailing: Icon(
+                    Icons.arrow_right,
+                    color: Colors.blue,
+                  ),
+                  onTap: () {
+                    // Navigator.of(context).pop();
+                    // Navigator.of(context).push(MaterialPageRoute(
+                    //     builder: (BuildContext context) => AllStudents()));
+                    Navigator.pushNamed(context, '/all');
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+        appBar: AppBar(
+          title: const Text('Flutter CRUD'),
+          leading: Builder(
+            builder: (context) => IconButton(
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              icon: Icon(Icons.menu),
+            ),
+          ),
+        ),
+        body: const MyFlutterForm());
   }
 }

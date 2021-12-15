@@ -1,8 +1,8 @@
 class Student {
-  final String? name;
-  final String? age;
-  final String? city;
-  final int? id;
+  String? name;
+  String? age;
+  String? city;
+  int? id;
 
   Student({this.name, this.age, this.city, this.id});
 

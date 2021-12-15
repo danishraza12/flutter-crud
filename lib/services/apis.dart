@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 // Function to GET all students
 Future<List<student.Student>> fetchStudents() async {
+  print("------------- Inside fetch ----------");
   final response = await http.get(Uri.parse('https://localhost:7175/api/CRUD'),
       headers: {
         "Accept": "application/json",
@@ -44,7 +45,7 @@ Future<student.Student> getStudentById(int id) async {
 }
 
 //Function to CREATE new student
-void postStudents(
+Future<post_student.PostStudent> postStudents(
     BuildContext context, String name, String age, String city) async {
   Map data = {'name': name, 'age': age, 'city': city};
   String body = json.encode(data);
@@ -54,6 +55,9 @@ void postStudents(
     headers: {"Content-Type": "application/json"},
     body: body,
   );
+
+  post_student.PostStudent postStudent =
+      post_student.PostStudent.fromJson(json.decode(response.body));
 
   if (response.statusCode == 200) {
     showDialog(
@@ -75,6 +79,7 @@ void postStudents(
       },
     );
   }
+  return postStudent;
 }
 
 //Function to UPDATE student

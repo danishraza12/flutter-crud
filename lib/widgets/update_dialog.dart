@@ -12,6 +12,9 @@ void updateStudentDialog(
   final UpdateCityController = TextEditingController();
   late Future<student.Student> _updateStudent;
 
+  student.Student updatedStudent =
+      new student.Student(id: null, name: "", age: "", city: "");
+
   UpdateNameController.text = studentToUpdate.name.toString();
   UpdateAgeController.text = studentToUpdate.age.toString();
   UpdateCityController.text = studentToUpdate.city.toString();
@@ -85,3 +88,4 @@ void updateStudentDialog(
         );
       });
 }
+// }
