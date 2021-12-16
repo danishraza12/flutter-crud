@@ -24,6 +24,12 @@ class _AllStudentsState extends State<AllStudents> {
     futureStudent = fetchStudents();
   }
 
+  void refreshStudents() {
+    setState(() {
+      futureStudent = fetchStudents();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,6 +91,8 @@ class _AllStudentsState extends State<AllStudents> {
 
                                               deleteStudent(context,
                                                   snapshot.data[index].id);
+
+                                              refreshStudents();
                                             },
                                             child: Text("Delete"),
                                             textColor: Colors.red,
@@ -104,6 +112,8 @@ class _AllStudentsState extends State<AllStudents> {
                                                   snapshot.data[index].id;
                                               updateStudentDialog(
                                                   context, studentToUpdate);
+
+                                              refreshStudents();
                                             },
                                             child: Text("Edit"),
                                             textColor: Colors.blue,
