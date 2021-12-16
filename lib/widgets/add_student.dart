@@ -20,6 +20,7 @@ class _AddStudentState extends State<AddStudent> {
     // Build a Form widget using the _formKey created above.
     return Column(
       children: <Widget>[
+        Row(children: <Widget>[]),
         Padding(
           padding: const EdgeInsets.only(top: 15, left: 20),
           child: Text(
@@ -28,6 +29,7 @@ class _AddStudentState extends State<AddStudent> {
                 fontWeight: FontWeight.bold, fontSize: 30, color: Colors.blue),
           ),
         ),
+
         Container(
           width: 300,
           alignment: Alignment.center,

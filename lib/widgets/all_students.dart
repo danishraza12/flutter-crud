@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, deprecated_member_use, avoid_print
 
 import '../models/student.dart' as student;
 import 'package:flutter/material.dart';
