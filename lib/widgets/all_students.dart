@@ -14,6 +14,7 @@ class AllStudents extends StatefulWidget {
 
 class _AllStudentsState extends State<AllStudents> {
   late Future<List<student.Student>> futureStudent;
+  late List<student.Student> initStudents;
 
   student.Student studentToUpdate =
       student.Student(name: "", age: "", city: "", id: null);
@@ -25,6 +26,7 @@ class _AllStudentsState extends State<AllStudents> {
   }
 
   void refreshStudents() {
+    print("In refresh");
     setState(() {
       futureStudent = fetchStudents();
     });
@@ -37,6 +39,7 @@ class _AllStudentsState extends State<AllStudents> {
         title: const Text('All Students'),
       ),
       body: FutureBuilder<List<student.Student>>(
+          // initialData: initStudents,
           future: futureStudent,
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.data != null) {
@@ -85,14 +88,14 @@ class _AllStudentsState extends State<AllStudents> {
                                         children: <Widget>[
                                           Expanded(
                                               child: FlatButton(
-                                            onPressed: () {
+                                            onPressed: () async {
                                               print(
                                                   "Delete pressed, ID: ${snapshot.data[index].id}");
 
-                                              deleteStudent(context,
-                                                  snapshot.data[index].id);
-
-                                              refreshStudents();
+                                              deleteStudent(
+                                                  context,
+                                                  snapshot.data[index].id,
+                                                  refreshStudents);
                                             },
                                             child: Text("Delete"),
                                             textColor: Colors.red,
@@ -111,9 +114,9 @@ class _AllStudentsState extends State<AllStudents> {
                                               studentToUpdate.id =
                                                   snapshot.data[index].id;
                                               updateStudentDialog(
-                                                  context, studentToUpdate);
-
-                                              refreshStudents();
+                                                  context,
+                                                  studentToUpdate,
+                                                  refreshStudents);
                                             },
                                             child: Text("Edit"),
                                             textColor: Colors.blue,
@@ -131,14 +134,18 @@ class _AllStudentsState extends State<AllStudents> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 );
               } else {
-                return CircularProgressIndicator(); // loading
+                return Padding(
+                    padding: const EdgeInsets.only(top: 15, left: 20),
+                    child: CircularProgressIndicator());
               }
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');
             }
             // By default, show a loading spinner.
             else {
-              return CircularProgressIndicator(); // loading
+              return Padding(
+                  padding: const EdgeInsets.only(top: 15, left: 20),
+                  child: CircularProgressIndicator()); // loading
             }
           }),
     );

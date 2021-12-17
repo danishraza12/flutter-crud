@@ -107,7 +107,8 @@ Future<student.Student> updateStudent(student.Student updatedStudent) async {
 }
 
 //Function to DELETE student
-Future<post_student.PostStudent> deleteStudent(context, int id) async {
+Future<post_student.PostStudent> deleteStudent(
+    context, int id, Function refresh) async {
   String url = 'https://localhost:7175/api/CRUD/$id';
 
   final http.Response response = await http.delete(
@@ -139,6 +140,7 @@ Future<post_student.PostStudent> deleteStudent(context, int id) async {
         );
       },
     );
+    refresh();
     return post_student.PostStudent.fromJson(jsonDecode(response.body));
   } else {
     if (deleteResponse.statusMessage!.isEmpty) {

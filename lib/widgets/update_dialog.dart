@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import '../models/student.dart' as student;
 import '../services/apis.dart';
 
-void updateStudentDialog(
-    BuildContext context, student.Student studentToUpdate) async {
+void updateStudentDialog(BuildContext context, student.Student studentToUpdate,
+    Function refresh) async {
   final UpdateNameController = TextEditingController();
   final UpdateAgeController = TextEditingController();
   final UpdateCityController = TextEditingController();
-  late Future<student.Student> _updateStudent;
+  // late Future<student.Student> _updateStudent;
 
-  student.Student updatedStudent =
-      new student.Student(id: null, name: "", age: "", city: "");
+  // student.Student updatedStudent =
+  //     new student.Student(id: null, name: "", age: "", city: "");
 
   UpdateNameController.text = studentToUpdate.name.toString();
   UpdateAgeController.text = studentToUpdate.age.toString();
@@ -80,7 +80,9 @@ void updateStudentDialog(
                       age: UpdateAgeController.text,
                       city: UpdateCityController.text);
                   // String body = json.encode(updatedStudent);
-                  _updateStudent = updateStudent(updatedStudent);
+                  // _updateStudent = updateStudent(updatedStudent);
+                  updateStudent(updatedStudent);
+                  refresh();
                   Navigator.pop(context, false);
                 })
           ],
