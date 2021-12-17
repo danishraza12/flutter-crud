@@ -41,7 +41,7 @@ class _AddStudentState extends State<AddStudent> {
           child: TextField(
             controller: NameController,
             inputFormatters: [
-              WhitelistingTextInputFormatter(RegExp("[a-zA-Z]")),
+              WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
             ],
             decoration: InputDecoration(
               border: OutlineInputBorder(),
@@ -73,7 +73,7 @@ class _AddStudentState extends State<AddStudent> {
           child: TextField(
             controller: CityController,
             inputFormatters: [
-              WhitelistingTextInputFormatter(RegExp("[a-zA-Z]")),
+              WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
             ],
             decoration: InputDecoration(
               border: OutlineInputBorder(),

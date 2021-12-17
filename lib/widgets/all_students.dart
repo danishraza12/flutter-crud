@@ -14,7 +14,6 @@ class AllStudents extends StatefulWidget {
 
 class _AllStudentsState extends State<AllStudents> {
   late Future<List<student.Student>> futureStudent;
-  late List<student.Student> initStudents;
 
   student.Student studentToUpdate =
       student.Student(name: "", age: "", city: "", id: null);
