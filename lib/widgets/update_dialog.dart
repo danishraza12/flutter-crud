@@ -9,10 +9,6 @@ void updateStudentDialog(BuildContext context, student.Student studentToUpdate,
   final UpdateNameController = TextEditingController();
   final UpdateAgeController = TextEditingController();
   final UpdateCityController = TextEditingController();
-  // late Future<student.Student> _updateStudent;
-
-  // student.Student updatedStudent =
-  //     new student.Student(id: null, name: "", age: "", city: "");
 
   UpdateNameController.text = studentToUpdate.name.toString();
   UpdateAgeController.text = studentToUpdate.age.toString();
@@ -73,15 +69,13 @@ void updateStudentDialog(BuildContext context, student.Student studentToUpdate,
             FlatButton(
                 child: Text('Update'),
                 textColor: Colors.blue,
-                onPressed: () {
+                onPressed: () async {
                   student.Student updatedStudent = new student.Student(
                       id: studentToUpdate.id,
                       name: UpdateNameController.text,
                       age: UpdateAgeController.text,
                       city: UpdateCityController.text);
-                  // String body = json.encode(updatedStudent);
-                  // _updateStudent = updateStudent(updatedStudent);
-                  updateStudent(updatedStudent);
+                  await updateStudent(updatedStudent);
                   refresh();
                   Navigator.pop(context, false);
                 })

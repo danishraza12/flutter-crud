@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 
 // Function to GET all students
 Future<List<student.Student>> fetchStudents() async {
-  print("------------- Inside fetch ----------");
   final response = await http.get(Uri.parse('https://localhost:7175/api/CRUD'),
       headers: {
         "Accept": "application/json",
@@ -168,51 +167,3 @@ Future<post_student.PostStudent> deleteStudent(
     return post_student.PostStudent.fromJson(jsonDecode(response.body));
   }
 }
-
-// dynamic postStudents(String name, String age, String city) async {
-//   Map data = {'name': name, 'age': age, 'city': city};
-//   String body = json.encode(data);
-
-//   http.Response response = await http.post(
-//     Uri.parse('https://localhost:7175/api/CRUD'),
-//     headers: {"Content-Type": "application/json"},
-//     body: body,
-//   );
-
-
-  // if (response.statusCode == 200) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return const AlertDialog(
-  //         content: Text('Successfully saved the data'),
-  //       );
-  //     },
-  //   );
-  // }
-
-  //   return response;
-// }
-
-// Future<post_student.PostStudent> createPost(String url,
-//     {required Map body}) async {
-//   return http.post(Uri.parse(url), body: body).then((http.Response response) {
-//     final int statusCode = response.statusCode;
-
-//     if (statusCode < 200 || statusCode > 400) {
-//       throw Exception("Error while fetching data");
-//     }
-//     return post_student.PostStudent.fromJson(json.decode(response.body));
-//   });
-// }
-
-// Future<post_student.PostStudent> createPost(String url,
-//     {required Map body}) async {
-//   http.Response response = await http.post(Uri.parse(url), body: body);
-//   final int statusCode = response.statusCode;
-
-//   if (statusCode < 200 || statusCode > 400) {
-//     throw Exception("Error while fetching data");
-//   }
-//   return post_student.PostStudent.fromJson(json.decode(response.body));
-// }

@@ -85,7 +85,6 @@ class _AddStudentState extends State<AddStudent> {
         // Text("$_ctr"),
         ElevatedButton(
           onPressed: () {
-            print("Post Button clicked");
             if (NameController.text.isEmpty ||
                 AgeController.text.isEmpty ||
                 CityController.text.isEmpty) {

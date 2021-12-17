@@ -25,7 +25,6 @@ class _AllStudentsState extends State<AllStudents> {
   }
 
   void refreshStudents() {
-    print("In refresh");
     setState(() {
       futureStudent = fetchStudents();
     });
@@ -88,9 +87,6 @@ class _AllStudentsState extends State<AllStudents> {
                                           Expanded(
                                               child: FlatButton(
                                             onPressed: () async {
-                                              print(
-                                                  "Delete pressed, ID: ${snapshot.data[index].id}");
-
                                               deleteStudent(
                                                   context,
                                                   snapshot.data[index].id,
@@ -103,7 +99,7 @@ class _AllStudentsState extends State<AllStudents> {
                                           )),
                                           Expanded(
                                               child: FlatButton(
-                                            onPressed: () {
+                                            onPressed: () async {
                                               studentToUpdate.name =
                                                   snapshot.data[index].name;
                                               studentToUpdate.age =
