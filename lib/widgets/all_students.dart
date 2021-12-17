@@ -53,7 +53,7 @@ class _AllStudentsState extends State<AllStudents> {
                           gridDelegate:
                               const SliverGridDelegateWithMaxCrossAxisExtent(
                                   maxCrossAxisExtent: 180,
-                                  childAspectRatio: 5 / 4,
+                                  childAspectRatio: 2 / 2.075,
                                   crossAxisSpacing: 20,
                                   mainAxisSpacing: 20),
                           itemCount: snapshot.data.length,
@@ -71,15 +71,43 @@ class _AllStudentsState extends State<AllStudents> {
                                     Container(
                                       alignment: Alignment.center,
                                       margin: const EdgeInsets.only(top: 16.0),
-                                      child: Text(snapshot.data[index].name),
+                                      child: Text(
+                                        snapshot.data[index].name,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14.0),
+                                      ),
+                                    ),
+                                    Divider(
+                                      color: Colors.black,
                                     ),
                                     Container(
                                       alignment: Alignment.center,
-                                      child: Text(snapshot.data[index].age),
+                                      child: Text(
+                                        snapshot.data[index].age,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14.0,
+                                            color:
+                                                Colors.black.withOpacity(0.7)),
+                                      ),
+                                    ),
+                                    Divider(
+                                      color: Colors.black,
                                     ),
                                     Container(
                                       alignment: Alignment.center,
-                                      child: Text(snapshot.data[index].city),
+                                      child: Text(
+                                        snapshot.data[index].city,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14.0,
+                                            color:
+                                                Colors.black.withOpacity(0.7)),
+                                      ),
+                                    ),
+                                    Divider(
+                                      color: Colors.black,
                                     ),
                                     ListTile(
                                       title: Row(
