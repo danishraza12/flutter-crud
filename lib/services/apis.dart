@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import '../models/student.dart' as student;
 import '../models/post_student.dart' as post_student;
 import 'package:http/http.dart' as http;

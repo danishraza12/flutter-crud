@@ -33,12 +33,12 @@ class _AddStudentState extends State<AddStudent> {
                 fontWeight: FontWeight.bold, fontSize: 30, color: Colors.blue),
           ),
         ),
-
         Container(
           width: 300,
           alignment: Alignment.center,
           margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
           child: TextField(
+            key: Key('Name'),
             controller: NameController,
             inputFormatters: [
               WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
@@ -55,6 +55,7 @@ class _AddStudentState extends State<AddStudent> {
           margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
           alignment: Alignment.center,
           child: TextField(
+            key: Key('Age'),
             controller: AgeController,
             inputFormatters: [
               WhitelistingTextInputFormatter(RegExp("[0-9]")),
@@ -71,6 +72,7 @@ class _AddStudentState extends State<AddStudent> {
           margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
           alignment: Alignment.center,
           child: TextField(
+            key: Key('City'),
             controller: CityController,
             inputFormatters: [
               WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
@@ -82,8 +84,8 @@ class _AddStudentState extends State<AddStudent> {
             ),
           ),
         ),
-        // Text("$_ctr"),
         ElevatedButton(
+          key: Key('Add Record Button'),
           onPressed: () {
             if (NameController.text.isEmpty ||
                 AgeController.text.isEmpty ||
