@@ -210,34 +210,40 @@ class _AddStudentState extends State<AddStudent> {
           },
           child: Text('Add Student'),
         ),
-        ElevatedButton(onPressed: createExcel, child: Text('Create Excel')),
+        Padding(
+          padding: const EdgeInsets.only(top: 15),
+          child: ElevatedButton(
+              onPressed: createExcel, child: Text('Create Excel')),
+        ),
         FutureBuilder<List<student.Student>>(
             // initialData: initStudents,
             future: futureStudent,
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.data != null) {
                 if (snapshot.hasData) {
-                  return ElevatedButton(
-                    key: Key('Generate PDF'),
-                    onPressed: () async {
-                      createPDF(snapshot.data);
-                      final bytes = await pdf.save();
-                      final blob = html.Blob([bytes], 'application/pdf');
+                  return Padding(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: ElevatedButton(
+                        key: Key('Generate PDF'),
+                        onPressed: () async {
+                          createPDF(snapshot.data);
+                          final bytes = await pdf.save();
+                          final blob = html.Blob([bytes], 'application/pdf');
 
-                      final url = html.Url.createObjectUrlFromBlob(blob);
-                      final anchor =
-                          html.document.createElement('a') as html.AnchorElement
+                          final url = html.Url.createObjectUrlFromBlob(blob);
+                          final anchor = html.document.createElement('a')
+                              as html.AnchorElement
                             ..href = url
                             ..style.display = 'none'
                             ..download = 'Generated Report.pdf';
-                      html.document.body!.children.add(anchor);
-                      anchor.click(); //download
-                      //Cleanup
-                      html.document.body!.children.remove(anchor);
-                      html.Url.revokeObjectUrl(url);
-                    },
-                    child: Text('Generate PDF'),
-                  );
+                          html.document.body!.children.add(anchor);
+                          anchor.click(); //download
+                          //Cleanup
+                          html.document.body!.children.remove(anchor);
+                          html.Url.revokeObjectUrl(url);
+                        },
+                        child: Text('Generate PDF'),
+                      ));
                 } else {
                   return Padding(
                       padding: const EdgeInsets.only(top: 15, left: 20),
