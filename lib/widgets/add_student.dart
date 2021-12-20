@@ -3,6 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../services/apis.dart';
+import 'dart:io' as io;
+import 'package:path_provider/path_provider.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'dart:convert';
+import 'package:universal_html/html.dart' as html;
+import '../models/student.dart' as student;
+import 'dart:html';
 
 class AddStudent extends StatefulWidget {
   const AddStudent({Key? key}) : super(key: key);
@@ -18,9 +26,66 @@ class _AddStudentState extends State<AddStudent> {
   bool _validate1 = false;
   bool _validate2 = false;
   bool _validate3 = false;
+  final pdf = pw.Document();
+  late Future<List<student.Student>> futureStudent;
+
+  @override
+  void initState() {
+    super.initState();
+    futureStudent = fetchStudents();
+  }
 
   @override
   Widget build(BuildContext context) {
+    void createPDF(var FetchedStudents) {
+      pdf.addPage(pw.Page(
+          pageFormat: PdfPageFormat.a4,
+          build: (pw.Context context) {
+            return pw.Center(
+              child: pw.Column(children: <pw.Widget>[
+                pw.Container(
+                  margin: pw.EdgeInsets.all(20),
+                  child: pw.Table(
+                    defaultColumnWidth: pw.FixedColumnWidth(120.0),
+                    border: pw.TableBorder.all(
+                        // color: Colors.black,
+                        style: pw.BorderStyle.solid,
+                        width: 2),
+                    children: [
+                      pw.TableRow(children: [
+                        pw.Column(children: [
+                          pw.Text('Name',
+                              style: pw.TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: pw.FontWeight.bold))
+                        ]),
+                        pw.Column(children: [
+                          pw.Text('Age',
+                              style: pw.TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: pw.FontWeight.bold))
+                        ]),
+                        pw.Column(children: [
+                          pw.Text('City',
+                              style: pw.TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: pw.FontWeight.bold))
+                        ]),
+                      ]),
+                      for (var student in FetchedStudents)
+                        pw.TableRow(children: [
+                          pw.Column(children: [pw.Text(student.name)]),
+                          pw.Column(children: [pw.Text(student.age)]),
+                          pw.Column(children: [pw.Text(student.city)]),
+                        ])
+                    ],
+                  ),
+                ),
+              ]),
+            );
+          }));
+    }
+
     // Build a Form widget using the _formKey created above.
     return Column(
       children: <Widget>[
@@ -118,6 +183,48 @@ class _AddStudentState extends State<AddStudent> {
           },
           child: Text('Add Student'),
         ),
+        FutureBuilder<List<student.Student>>(
+            // initialData: initStudents,
+            future: futureStudent,
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot.data != null) {
+                if (snapshot.hasData) {
+                  return ElevatedButton(
+                    key: Key('Generate PDF'),
+                    onPressed: () async {
+                      createPDF(snapshot.data);
+                      final bytes = await pdf.save();
+                      final blob = html.Blob([bytes], 'application/pdf');
+
+                      final url = html.Url.createObjectUrlFromBlob(blob);
+                      final anchor =
+                          html.document.createElement('a') as html.AnchorElement
+                            ..href = url
+                            ..style.display = 'none'
+                            ..download = 'Generated Report.pdf';
+                      html.document.body!.children.add(anchor);
+                      anchor.click(); //download
+                      //Cleanup
+                      html.document.body!.children.remove(anchor);
+                      html.Url.revokeObjectUrl(url);
+                    },
+                    child: Text('Generate PDF'),
+                  );
+                } else {
+                  return Padding(
+                      padding: const EdgeInsets.only(top: 15, left: 20),
+                      child: CircularProgressIndicator());
+                }
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
+              // By default, show a loading spinner.
+              else {
+                return Padding(
+                    padding: const EdgeInsets.only(top: 15, left: 20),
+                    child: CircularProgressIndicator()); // loading
+              }
+            }),
       ],
     );
   }
