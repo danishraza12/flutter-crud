@@ -10,7 +10,10 @@ import 'package:pdf/widgets.dart' as pw;
 import 'dart:convert';
 import 'package:universal_html/html.dart' as html;
 import '../models/student.dart' as student;
-import 'dart:html';
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' as ExcelSheet;
+import 'package:path_provider/path_provider.dart' as PathProvider;
+import 'package:open_file/open_file.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class AddStudent extends StatefulWidget {
   const AddStudent({Key? key}) : super(key: key);
@@ -84,6 +87,30 @@ class _AddStudentState extends State<AddStudent> {
               ]),
             );
           }));
+    }
+
+    Future<void> createExcel() async {
+      final ExcelSheet.Workbook workbook = ExcelSheet.Workbook();
+      final ExcelSheet.Worksheet sheet = workbook.worksheets[0];
+      sheet.getRangeByName('A1').setText('Hello World!');
+      final List<int> bytes = workbook.saveAsStream();
+      workbook.dispose();
+
+      if (kIsWeb) {
+        html.AnchorElement(
+            href:
+                'data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}')
+          ..setAttribute('download', 'Output.xlsx')
+          ..click();
+      } else {
+        final String path =
+            (await PathProvider.getApplicationSupportDirectory()).path;
+        final String fileName =
+            io.Platform.isWindows ? '$path\\Output.xlsx' : '$path/Output.xlsx';
+        final io.File file = io.File(fileName);
+        await file.writeAsBytes(bytes, flush: true);
+        OpenFile.open(fileName);
+      }
     }
 
     // Build a Form widget using the _formKey created above.
@@ -183,6 +210,7 @@ class _AddStudentState extends State<AddStudent> {
           },
           child: Text('Add Student'),
         ),
+        ElevatedButton(onPressed: createExcel, child: Text('Create Excel')),
         FutureBuilder<List<student.Student>>(
             // initialData: initStudents,
             future: futureStudent,

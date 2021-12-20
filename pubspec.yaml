@@ -32,8 +32,10 @@ dependencies:
   http: "0.13.4"
   pull_to_refresh: ^2.0.0
   pdf: ^3.6.5
-  path_provider: ^2.0.8
+  path_provider: ^2.0.1
   universal_html: ^2.0.8
+  syncfusion_flutter_xlsio: ^19.1.64-beta
+  open_file: ^3.2.1
 
 
   # The following adds the Cupertino Icons font to your application.
