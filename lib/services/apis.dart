@@ -42,9 +42,31 @@ Future<student.Student> getStudentById(int id) async {
 }
 
 //Function to CREATE new student
-Future<post_student.PostStudent> postStudents(BuildContext context, String name,
-    String age, String city, Function refresh) async {
-  Map data = {'name': name, 'age': age, 'city': city};
+Future<post_student.PostStudent> postStudents(
+    BuildContext context,
+    String name,
+    String age,
+    String city,
+    String batch,
+    String address,
+    String dateOfBirth,
+    String fatherName,
+    String gender,
+    String rollNumber,
+    String degreeStatus,
+    Function refresh) async {
+  Map data = {
+    'name': name,
+    'age': age,
+    'city': city,
+    'batch': batch,
+    'address': address,
+    'dateOfBirth': dateOfBirth,
+    'fatherName': fatherName,
+    'gender': gender,
+    'rollNumber': rollNumber,
+    'degreeStatus': degreeStatus
+  };
   String body = json.encode(data);
 
   http.Response response = await http.post(

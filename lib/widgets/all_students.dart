@@ -15,8 +15,18 @@ class AllStudents extends StatefulWidget {
 class _AllStudentsState extends State<AllStudents> {
   late Future<List<student.Student>> futureStudent;
 
-  student.Student studentToUpdate =
-      student.Student(name: "", age: "", city: "", id: null);
+  student.Student studentToUpdate = student.Student(
+      name: "",
+      age: "",
+      city: "",
+      id: null,
+      batch: "",
+      address: "",
+      dateOfBirth: "",
+      fatherName: "",
+      gender: "",
+      rollNumber: "",
+      degreeStatus: "");
 
   @override
   void initState() {
@@ -42,7 +52,121 @@ class _AllStudentsState extends State<AllStudents> {
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.data != null) {
               if (snapshot.hasData) {
-                return Row(
+                return
+                    // Center(
+                    //   child: Container(
+                    //     color: Colors.white,
+                    //     height: MediaQuery.of(context).size.height,
+                    //     child: SingleChildScrollView(
+                    //       scrollDirection: Axis.vertical,
+                    //       child: SingleChildScrollView(
+                    //         scrollDirection: Axis.horizontal,
+                    //         child: DataTable(
+                    //           columns: <DataColumn>[
+                    //             DataColumn(
+                    //               label: Text(
+                    //                 'Name',
+                    //                 style: TextStyle(
+                    //                     fontSize: 15.0,
+                    //                     fontWeight: FontWeight.bold),
+                    //               ),
+                    //             ),
+                    //             DataColumn(
+                    //               label: Text(
+                    //                 'Age',
+                    //                 style: TextStyle(
+                    //                     fontSize: 15.0,
+                    //                     fontWeight: FontWeight.bold),
+                    //               ),
+                    //             ),
+                    //             DataColumn(
+                    //               label: Text(
+                    //                 'City',
+                    //                 style: TextStyle(
+                    //                     fontSize: 15.0,
+                    //                     fontWeight: FontWeight.bold),
+                    //               ),
+                    //             ),
+                    //             DataColumn(
+                    //               label: Text(
+                    //                 'Batch',
+                    //                 style: TextStyle(
+                    //                     fontSize: 15.0,
+                    //                     fontWeight: FontWeight.bold),
+                    //               ),
+                    //             ),
+                    //             DataColumn(
+                    //               label: Text(
+                    //                 'Address',
+                    //                 style: TextStyle(
+                    //                     fontSize: 15.0,
+                    //                     fontWeight: FontWeight.bold),
+                    //               ),
+                    //             ),
+                    //             DataColumn(
+                    //               label: Text(
+                    //                 'Date Of Birth',
+                    //                 style: TextStyle(
+                    //                     fontSize: 15.0,
+                    //                     fontWeight: FontWeight.bold),
+                    //               ),
+                    //             ),
+                    //             DataColumn(
+                    //               label: Text(
+                    //                 'Father Name',
+                    //                 style: TextStyle(
+                    //                     fontSize: 15.0,
+                    //                     fontWeight: FontWeight.bold),
+                    //               ),
+                    //             ),
+                    //             DataColumn(
+                    //               label: Text(
+                    //                 'Gender',
+                    //                 style: TextStyle(
+                    //                     fontSize: 15.0,
+                    //                     fontWeight: FontWeight.bold),
+                    //               ),
+                    //             ),
+                    //             DataColumn(
+                    //               label: Text(
+                    //                 'Roll Number',
+                    //                 style: TextStyle(
+                    //                     fontSize: 15.0,
+                    //                     fontWeight: FontWeight.bold),
+                    //               ),
+                    //             ),
+                    //             DataColumn(
+                    //               label: Text(
+                    //                 'Degree Status',
+                    //                 style: TextStyle(
+                    //                     fontSize: 15.0,
+                    //                     fontWeight: FontWeight.bold),
+                    //               ),
+                    //             ),
+                    //           ],
+                    //           rows: [
+                    //             for (var student in snapshot.data)
+                    //               DataRow(
+                    //                 cells: <DataCell>[
+                    //                   DataCell(Text(student.name)),
+                    //                   DataCell(Text(student.age)),
+                    //                   DataCell(Text(student.city)),
+                    //                   DataCell(Text(student.batch)),
+                    //                   DataCell(Text(student.address)),
+                    //                   DataCell(Text(student.dateOfBirth)),
+                    //                   DataCell(Text(student.fatherName)),
+                    //                   DataCell(Text(student.gender)),
+                    //                   DataCell(Text(student.rollNumber)),
+                    //                   DataCell(Text(student.degreeStatus)),
+                    //                 ],
+                    //               ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // );
+                    Row(
                   children: <Widget>[
                     Expanded(
                       child: SizedBox(
@@ -156,6 +280,9 @@ class _AllStudentsState extends State<AllStudents> {
                   ],
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 );
+
+                // Row ends here
+
               } else {
                 return Padding(
                     padding: const EdgeInsets.only(top: 15, left: 20),
