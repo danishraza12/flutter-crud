@@ -46,6 +46,7 @@ class _AddStudentState extends State<AddStudent> {
   bool _validateDegreeStatus = false;
 
   pw.Document pdf = pw.Document();
+
   late Future<List<student.Student>> futureStudent;
 
   @override
@@ -234,398 +235,335 @@ class _AddStudentState extends State<AddStudent> {
     }
 
     // Build a Form widget using the _formKey created above.
-    return Column(
-      children: <Widget>[
-        Row(children: <Widget>[]),
-        FutureBuilder<List<student.Student>>(
-            // initialData: initStudents,
-            future: futureStudent,
-            builder: (context, AsyncSnapshot snapshot) {
-              if (snapshot.data != null) {
-                if (snapshot.hasData) {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 15),
-                    child: ElevatedButton(
-                        onPressed: () {
-                          createExcel(snapshot.data);
-                        },
-                        child: Text('Create Excel')),
-                  );
+    return Container(
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Row(children: <Widget>[]),
+            Padding(
+              padding: const EdgeInsets.only(top: 15, left: 20),
+              child: Text(
+                'ADD DETAILS',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                    color: Colors.blue),
+              ),
+            ),
+            Container(
+              width: 300,
+              alignment: Alignment.center,
+              margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
+              child: TextField(
+                key: Key('Name'),
+                controller: NameController,
+                inputFormatters: [
+                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
+                ],
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Name',
+                  errorText: _validateName ? 'Enter Correct Name Field' : null,
+                ),
+              ),
+            ),
+            Container(
+              width: 300,
+              margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
+              alignment: Alignment.center,
+              child: TextField(
+                key: Key('Age'),
+                controller: AgeController,
+                inputFormatters: [
+                  WhitelistingTextInputFormatter(RegExp("[0-9]")),
+                ],
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Age',
+                  errorText: _validateAge ? 'Enter Correct Age Field' : null,
+                ),
+              ),
+            ),
+            Container(
+              width: 300,
+              margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
+              alignment: Alignment.center,
+              child: TextField(
+                key: Key('City'),
+                controller: CityController,
+                inputFormatters: [
+                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
+                ],
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'City',
+                  errorText: _validateCity ? 'Enter Correct City Field' : null,
+                ),
+              ),
+            ),
+            Container(
+              width: 300,
+              margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
+              alignment: Alignment.center,
+              child: TextField(
+                key: Key('Batch'),
+                controller: BatchController,
+                inputFormatters: [
+                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
+                ],
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Batch',
+                  errorText:
+                      _validateBatch ? 'Enter Correct Batch Field' : null,
+                ),
+              ),
+            ),
+            Container(
+              width: 300,
+              margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
+              alignment: Alignment.center,
+              child: TextField(
+                key: Key('Address'),
+                controller: AddressController,
+                inputFormatters: [
+                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
+                ],
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Address',
+                  errorText:
+                      _validateBatch ? 'Enter Correct Address Field' : null,
+                ),
+              ),
+            ),
+            Container(
+              width: 300,
+              margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
+              alignment: Alignment.center,
+              child: TextField(
+                key: Key('Date of Birth'),
+                controller: DateOfBirthController,
+                inputFormatters: [
+                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
+                ],
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Date of Birth',
+                  errorText: _validateBatch
+                      ? 'Enter Correct Date of Birth Field'
+                      : null,
+                ),
+              ),
+            ),
+            Container(
+              width: 300,
+              margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
+              alignment: Alignment.center,
+              child: TextField(
+                key: Key('Father Name'),
+                controller: FatherNameController,
+                inputFormatters: [
+                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
+                ],
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Father Name',
+                  errorText:
+                      _validateBatch ? 'Enter Correct Father Name Field' : null,
+                ),
+              ),
+            ),
+            Container(
+              width: 300,
+              margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
+              alignment: Alignment.center,
+              child: TextField(
+                key: Key('Gender'),
+                controller: GenderController,
+                inputFormatters: [
+                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
+                ],
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Gender',
+                  errorText:
+                      _validateBatch ? 'Enter Correct Gender Field' : null,
+                ),
+              ),
+            ),
+            Container(
+              width: 300,
+              margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
+              alignment: Alignment.center,
+              child: TextField(
+                key: Key('Roll Number'),
+                controller: RollNumberController,
+                inputFormatters: [
+                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
+                ],
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Roll Number',
+                  errorText:
+                      _validateBatch ? 'Enter Correct Roll Number Field' : null,
+                ),
+              ),
+            ),
+            Container(
+              width: 300,
+              margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
+              alignment: Alignment.center,
+              child: TextField(
+                key: Key('Degree Status'),
+                controller: DegreeStatusController,
+                inputFormatters: [
+                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
+                ],
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Degree Status',
+                  errorText: _validateBatch
+                      ? 'Enter Correct Degree Status Field'
+                      : null,
+                ),
+              ),
+            ),
+            ElevatedButton(
+              key: Key('Add Record Button'),
+              onPressed: () {
+                if (NameController.text.isEmpty ||
+                    AgeController.text.isEmpty ||
+                    CityController.text.isEmpty) {
+                  setState(() {
+                    NameController.text.isEmpty
+                        ? _validateName = true
+                        : _validateName = false;
+                    AgeController.text.isEmpty
+                        ? _validateAge = true
+                        : _validateAge = false;
+                    CityController.text.isEmpty
+                        ? _validateCity = true
+                        : _validateCity = false;
+                  });
                 } else {
-                  return Padding(
-                      padding: const EdgeInsets.only(top: 15, left: 20),
-                      child: CircularProgressIndicator());
+                  postStudents(
+                      context,
+                      NameController.text,
+                      AgeController.text,
+                      CityController.text,
+                      BatchController.text,
+                      AddressController.text,
+                      DateOfBirthController.text,
+                      FatherNameController.text,
+                      GenderController.text,
+                      RollNumberController.text,
+                      DegreeStatusController.text,
+                      refreshStudents);
+
+                  setState(() {
+                    _validateName = false;
+                    _validateAge = false;
+                    _validateCity = false;
+                  });
+
+                  NameController.clear();
+                  AgeController.clear();
+                  CityController.clear();
+                  BatchController.clear;
+                  AddressController.clear;
+                  DateOfBirthController.clear;
+                  FatherNameController.clear;
+                  GenderController.clear;
+                  RollNumberController.clear;
+                  DegreeStatusController.clear;
+
+                  // refreshStudents();
                 }
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              // By default, show a loading spinner.
-              else {
-                return Padding(
-                    padding: const EdgeInsets.only(top: 15, left: 20),
-                    child: CircularProgressIndicator()); // loading
-              }
-            }),
-        FutureBuilder<List<student.Student>>(
-            // initialData: initStudents,
-            future: futureStudent,
-            builder: (context, AsyncSnapshot snapshot) {
-              if (snapshot.data != null) {
-                if (snapshot.hasData) {
-                  return Padding(
-                      padding: const EdgeInsets.only(top: 15),
-                      child: ElevatedButton(
-                        key: Key('Generate PDF'),
-                        onPressed: () async {
-                          refreshStudents();
-                          refreshPDF();
+              },
+              child: Text('Add Student'),
+            ),
+            FutureBuilder<List<student.Student>>(
+                // initialData: initStudents,
+                future: futureStudent,
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.data != null) {
+                    if (snapshot.hasData) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: ElevatedButton(
+                            onPressed: () {
+                              createExcel(snapshot.data);
+                            },
+                            child: Text('Create Excel')),
+                      );
+                    } else {
+                      return Padding(
+                          padding: const EdgeInsets.only(top: 15, left: 20),
+                          child: CircularProgressIndicator());
+                    }
+                  } else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  }
+                  // By default, show a loading spinner.
+                  else {
+                    return Padding(
+                        padding: const EdgeInsets.only(top: 15, left: 20),
+                        child: CircularProgressIndicator()); // loading
+                  }
+                }),
+            FutureBuilder<List<student.Student>>(
+                // initialData: initStudents,
+                future: futureStudent,
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.data != null) {
+                    if (snapshot.hasData) {
+                      return Padding(
+                          padding: const EdgeInsets.only(top: 15),
+                          child: ElevatedButton(
+                            key: Key('Generate PDF'),
+                            onPressed: () async {
+                              refreshStudents();
+                              refreshPDF();
 
-                          createPDF(snapshot.data);
-                          final bytes = await pdf.save();
-                          final blob = html.Blob([bytes], 'application/pdf');
+                              createPDF(snapshot.data);
+                              final bytes = await pdf.save();
+                              final blob =
+                                  html.Blob([bytes], 'application/pdf');
 
-                          final url = html.Url.createObjectUrlFromBlob(blob);
-                          final anchor = html.document.createElement('a')
-                              as html.AnchorElement
-                            ..href = url
-                            ..style.display = 'none'
-                            ..download = 'Generated Report.pdf';
-                          html.document.body!.children.add(anchor);
-                          anchor.click(); //download
-                          //Cleanup
-                          html.document.body!.children.remove(anchor);
-                          html.Url.revokeObjectUrl(url);
-                        },
-                        child: Text('Generate PDF'),
-                      ));
-                } else {
-                  return Padding(
-                      padding: const EdgeInsets.only(top: 15, left: 20),
-                      child: CircularProgressIndicator());
-                }
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              // By default, show a loading spinner.
-              else {
-                return Padding(
-                    padding: const EdgeInsets.only(top: 15, left: 20),
-                    child: CircularProgressIndicator()); // loading
-              }
-            }),
-        Padding(
-          padding: const EdgeInsets.only(top: 15, left: 20),
-          child: Text(
-            'ADD DETAILS',
-            style: TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 30, color: Colors.blue),
-          ),
+                              final url =
+                                  html.Url.createObjectUrlFromBlob(blob);
+                              final anchor = html.document.createElement('a')
+                                  as html.AnchorElement
+                                ..href = url
+                                ..style.display = 'none'
+                                ..download = 'Generated Report.pdf';
+                              html.document.body!.children.add(anchor);
+                              anchor.click(); //download
+                              //Cleanup
+                              html.document.body!.children.remove(anchor);
+                              html.Url.revokeObjectUrl(url);
+                            },
+                            child: Text('Generate PDF'),
+                          ));
+                    } else {
+                      return Padding(
+                          padding: const EdgeInsets.only(top: 15, left: 20),
+                          child: CircularProgressIndicator());
+                    }
+                  } else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  }
+                  // By default, show a loading spinner.
+                  else {
+                    return Padding(
+                        padding: const EdgeInsets.only(top: 15, left: 20),
+                        child: CircularProgressIndicator()); // loading
+                  }
+                }),
+          ],
         ),
-        Container(
-          width: 300,
-          alignment: Alignment.center,
-          margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
-          child: TextField(
-            key: Key('Name'),
-            controller: NameController,
-            inputFormatters: [
-              WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
-            ],
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Name',
-              errorText: _validateName ? 'Enter Correct Name Field' : null,
-            ),
-          ),
-        ),
-        Container(
-          width: 300,
-          margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
-          alignment: Alignment.center,
-          child: TextField(
-            key: Key('Age'),
-            controller: AgeController,
-            inputFormatters: [
-              WhitelistingTextInputFormatter(RegExp("[0-9]")),
-            ],
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Age',
-              errorText: _validateAge ? 'Enter Correct Age Field' : null,
-            ),
-          ),
-        ),
-        Container(
-          width: 300,
-          margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
-          alignment: Alignment.center,
-          child: TextField(
-            key: Key('City'),
-            controller: CityController,
-            inputFormatters: [
-              WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
-            ],
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'City',
-              errorText: _validateCity ? 'Enter Correct City Field' : null,
-            ),
-          ),
-        ),
-        Container(
-          width: 300,
-          margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
-          alignment: Alignment.center,
-          child: TextField(
-            key: Key('Batch'),
-            controller: BatchController,
-            inputFormatters: [
-              WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
-            ],
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Batch',
-              errorText: _validateBatch ? 'Enter Correct Batch Field' : null,
-            ),
-          ),
-        ),
-        Container(
-          width: 300,
-          margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
-          alignment: Alignment.center,
-          child: TextField(
-            key: Key('Address'),
-            controller: AddressController,
-            inputFormatters: [
-              WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
-            ],
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Address',
-              errorText: _validateBatch ? 'Enter Correct Address Field' : null,
-            ),
-          ),
-        ),
-        Container(
-          width: 300,
-          margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
-          alignment: Alignment.center,
-          child: TextField(
-            key: Key('Date of Birth'),
-            controller: DateOfBirthController,
-            inputFormatters: [
-              WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
-            ],
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Date of Birth',
-              errorText:
-                  _validateBatch ? 'Enter Correct Date of Birth Field' : null,
-            ),
-          ),
-        ),
-        Container(
-          width: 300,
-          margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
-          alignment: Alignment.center,
-          child: TextField(
-            key: Key('Father Name'),
-            controller: FatherNameController,
-            inputFormatters: [
-              WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
-            ],
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Father Name',
-              errorText:
-                  _validateBatch ? 'Enter Correct Father Name Field' : null,
-            ),
-          ),
-        ),
-        Container(
-          width: 300,
-          margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
-          alignment: Alignment.center,
-          child: TextField(
-            key: Key('Gender'),
-            controller: GenderController,
-            inputFormatters: [
-              WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
-            ],
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Gender',
-              errorText: _validateBatch ? 'Enter Correct Gender Field' : null,
-            ),
-          ),
-        ),
-        Container(
-          width: 300,
-          margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
-          alignment: Alignment.center,
-          child: TextField(
-            key: Key('Roll Number'),
-            controller: RollNumberController,
-            inputFormatters: [
-              WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
-            ],
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Roll Number',
-              errorText:
-                  _validateBatch ? 'Enter Correct Roll Number Field' : null,
-            ),
-          ),
-        ),
-        Container(
-          width: 300,
-          margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
-          alignment: Alignment.center,
-          child: TextField(
-            key: Key('Degree Status'),
-            controller: DegreeStatusController,
-            inputFormatters: [
-              WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
-            ],
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Degree Status',
-              errorText:
-                  _validateBatch ? 'Enter Correct Degree Status Field' : null,
-            ),
-          ),
-        ),
-        ElevatedButton(
-          key: Key('Add Record Button'),
-          onPressed: () {
-            if (NameController.text.isEmpty ||
-                AgeController.text.isEmpty ||
-                CityController.text.isEmpty) {
-              setState(() {
-                NameController.text.isEmpty
-                    ? _validateName = true
-                    : _validateName = false;
-                AgeController.text.isEmpty
-                    ? _validateAge = true
-                    : _validateAge = false;
-                CityController.text.isEmpty
-                    ? _validateCity = true
-                    : _validateCity = false;
-              });
-            } else {
-              postStudents(
-                  context,
-                  NameController.text,
-                  AgeController.text,
-                  CityController.text,
-                  BatchController.text,
-                  AddressController.text,
-                  DateOfBirthController.text,
-                  FatherNameController.text,
-                  GenderController.text,
-                  RollNumberController.text,
-                  DegreeStatusController.text,
-                  refreshStudents);
-
-              setState(() {
-                _validateName = false;
-                _validateAge = false;
-                _validateCity = false;
-              });
-
-              NameController.clear();
-              AgeController.clear();
-              CityController.clear();
-              BatchController.clear;
-              AddressController.clear;
-              DateOfBirthController.clear;
-              FatherNameController.clear;
-              GenderController.clear;
-              RollNumberController.clear;
-              DegreeStatusController.clear;
-
-              // refreshStudents();
-            }
-          },
-          child: Text('Add Student'),
-        ),
-        // FutureBuilder<List<student.Student>>(
-        //     // initialData: initStudents,
-        //     future: futureStudent,
-        //     builder: (context, AsyncSnapshot snapshot) {
-        //       if (snapshot.data != null) {
-        //         if (snapshot.hasData) {
-        //           return Padding(
-        //             padding: const EdgeInsets.only(top: 15),
-        //             child: ElevatedButton(
-        //                 onPressed: () {
-        //                   createExcel(snapshot.data);
-        //                 },
-        //                 child: Text('Create Excel')),
-        //           );
-        //         } else {
-        //           return Padding(
-        //               padding: const EdgeInsets.only(top: 15, left: 20),
-        //               child: CircularProgressIndicator());
-        //         }
-        //       } else if (snapshot.hasError) {
-        //         return Text('${snapshot.error}');
-        //       }
-        //       // By default, show a loading spinner.
-        //       else {
-        //         return Padding(
-        //             padding: const EdgeInsets.only(top: 15, left: 20),
-        //             child: CircularProgressIndicator()); // loading
-        //       }
-        //     }),
-        // FutureBuilder<List<student.Student>>(
-        //     // initialData: initStudents,
-        //     future: futureStudent,
-        //     builder: (context, AsyncSnapshot snapshot) {
-        //       if (snapshot.data != null) {
-        //         if (snapshot.hasData) {
-        //           return Padding(
-        //               padding: const EdgeInsets.only(top: 15),
-        //               child: ElevatedButton(
-        //                 key: Key('Generate PDF'),
-        //                 onPressed: () async {
-        //                   refreshStudents();
-        //                   refreshPDF();
-
-        //                   createPDF(snapshot.data);
-        //                   final bytes = await pdf.save();
-        //                   final blob = html.Blob([bytes], 'application/pdf');
-
-        //                   final url = html.Url.createObjectUrlFromBlob(blob);
-        //                   final anchor = html.document.createElement('a')
-        //                       as html.AnchorElement
-        //                     ..href = url
-        //                     ..style.display = 'none'
-        //                     ..download = 'Generated Report.pdf';
-        //                   html.document.body!.children.add(anchor);
-        //                   anchor.click(); //download
-        //                   //Cleanup
-        //                   html.document.body!.children.remove(anchor);
-        //                   html.Url.revokeObjectUrl(url);
-        //                 },
-        //                 child: Text('Generate PDF'),
-        //               ));
-        //         } else {
-        //           return Padding(
-        //               padding: const EdgeInsets.only(top: 15, left: 20),
-        //               child: CircularProgressIndicator());
-        //         }
-        //       } else if (snapshot.hasError) {
-        //         return Text('${snapshot.error}');
-        //       }
-        //       // By default, show a loading spinner.
-        //       else {
-        //         return Padding(
-        //             padding: const EdgeInsets.only(top: 15, left: 20),
-        //             child: CircularProgressIndicator()); // loading
-        //       }
-        //     }),
-      ],
+      ),
     );
   }
 }

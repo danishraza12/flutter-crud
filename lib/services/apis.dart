@@ -109,7 +109,14 @@ Future<student.Student> updateStudent(student.Student updatedStudent) async {
     'id': updatedStudent.id,
     'name': updatedStudent.name,
     'age': updatedStudent.age,
-    'city': updatedStudent.city
+    'city': updatedStudent.city,
+    'batch': updatedStudent.batch,
+    'address': updatedStudent.address,
+    'dateOfBirth': updatedStudent.dateOfBirth,
+    'fatherName': updatedStudent.fatherName,
+    'gender': updatedStudent.gender,
+    'rollNumber': updatedStudent.rollNumber,
+    'degreeStatus': updatedStudent.degreeStatus
   };
   String body = json.encode(data);
 
