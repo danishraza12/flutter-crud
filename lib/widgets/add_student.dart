@@ -4,14 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../services/apis.dart';
 import 'dart:io' as io;
-import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'dart:convert';
 import 'package:universal_html/html.dart' as html;
 import '../models/student.dart' as student;
-import 'package:syncfusion_flutter_xlsio/xlsio.dart' as ExcelSheet;
-import 'package:path_provider/path_provider.dart' as PathProvider;
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' as excel_sheet;
+import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:open_file/open_file.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -29,7 +28,7 @@ class _AddStudentState extends State<AddStudent> {
   bool _validate1 = false;
   bool _validate2 = false;
   bool _validate3 = false;
-  final pdf = pw.Document();
+  pw.Document pdf = pw.Document();
   late Future<List<student.Student>> futureStudent;
 
   @override
@@ -38,9 +37,24 @@ class _AddStudentState extends State<AddStudent> {
     futureStudent = fetchStudents();
   }
 
+  void refreshStudents() {
+    setState(() {
+      // futureStudent = await Future.value(fetchStudents()); // Without future
+      futureStudent = Future.value(fetchStudents());
+      // futureStudent = fetchStudents();
+    });
+  }
+
+  void refreshPDF() {
+    setState(() {
+      pdf = pw.Document();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     void createPDF(var FetchedStudents) {
+      refreshStudents();
       pdf.addPage(pw.Page(
           pageFormat: PdfPageFormat.a4,
           build: (pw.Context context) {
@@ -89,10 +103,27 @@ class _AddStudentState extends State<AddStudent> {
           }));
     }
 
-    Future<void> createExcel() async {
-      final ExcelSheet.Workbook workbook = ExcelSheet.Workbook();
-      final ExcelSheet.Worksheet sheet = workbook.worksheets[0];
-      sheet.getRangeByName('A1').setText('Hello World!');
+    void createExcel(var studentList) async {
+      refreshStudents();
+      final excel_sheet.Workbook workbook = excel_sheet.Workbook();
+      final excel_sheet.Worksheet sheet = workbook.worksheets[0];
+
+      List<student.Student> students = await Future.value(studentList);
+
+      excel_sheet.ExcelDataCell(columnHeader: 'Name', value: 'dataRow.name');
+      excel_sheet.ExcelDataCell(columnHeader: 'Age', value: 'dataRow.age');
+      excel_sheet.ExcelDataCell(columnHeader: 'City', value: 'dataRow.city');
+
+      var excelDataRows = students.map<excel_sheet.ExcelDataRow>((dataRow) {
+        return excel_sheet.ExcelDataRow(cells: <excel_sheet.ExcelDataCell>[
+          excel_sheet.ExcelDataCell(columnHeader: 'Name', value: dataRow.name),
+          excel_sheet.ExcelDataCell(columnHeader: 'Age', value: dataRow.age),
+          excel_sheet.ExcelDataCell(columnHeader: 'City', value: dataRow.city),
+        ]);
+      }).toList();
+
+      sheet.importData(excelDataRows, 1, 1);
+
       final List<int> bytes = workbook.saveAsStream();
       workbook.dispose();
 
@@ -104,7 +135,7 @@ class _AddStudentState extends State<AddStudent> {
           ..click();
       } else {
         final String path =
-            (await PathProvider.getApplicationSupportDirectory()).path;
+            (await path_provider.getApplicationSupportDirectory()).path;
         final String fileName =
             io.Platform.isWindows ? '$path\\Output.xlsx' : '$path/Output.xlsx';
         final io.File file = io.File(fileName);
@@ -195,7 +226,7 @@ class _AddStudentState extends State<AddStudent> {
               });
             } else {
               postStudents(context, NameController.text, AgeController.text,
-                  CityController.text);
+                  CityController.text, refreshStudents);
 
               setState(() {
                 _validate1 = false;
@@ -206,15 +237,41 @@ class _AddStudentState extends State<AddStudent> {
               NameController.clear();
               AgeController.clear();
               CityController.clear();
+
+              // refreshStudents();
             }
           },
           child: Text('Add Student'),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 15),
-          child: ElevatedButton(
-              onPressed: createExcel, child: Text('Create Excel')),
-        ),
+        FutureBuilder<List<student.Student>>(
+            // initialData: initStudents,
+            future: futureStudent,
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot.data != null) {
+                if (snapshot.hasData) {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 15),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          createExcel(snapshot.data);
+                        },
+                        child: Text('Create Excel')),
+                  );
+                } else {
+                  return Padding(
+                      padding: const EdgeInsets.only(top: 15, left: 20),
+                      child: CircularProgressIndicator());
+                }
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
+              // By default, show a loading spinner.
+              else {
+                return Padding(
+                    padding: const EdgeInsets.only(top: 15, left: 20),
+                    child: CircularProgressIndicator()); // loading
+              }
+            }),
         FutureBuilder<List<student.Student>>(
             // initialData: initStudents,
             future: futureStudent,
@@ -226,6 +283,9 @@ class _AddStudentState extends State<AddStudent> {
                       child: ElevatedButton(
                         key: Key('Generate PDF'),
                         onPressed: () async {
+                          refreshStudents();
+                          refreshPDF();
+
                           createPDF(snapshot.data);
                           final bytes = await pdf.save();
                           final blob = html.Blob([bytes], 'application/pdf');

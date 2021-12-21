@@ -42,8 +42,8 @@ Future<student.Student> getStudentById(int id) async {
 }
 
 //Function to CREATE new student
-Future<post_student.PostStudent> postStudents(
-    BuildContext context, String name, String age, String city) async {
+Future<post_student.PostStudent> postStudents(BuildContext context, String name,
+    String age, String city, Function refresh) async {
   Map data = {'name': name, 'age': age, 'city': city};
   String body = json.encode(data);
 
@@ -56,6 +56,7 @@ Future<post_student.PostStudent> postStudents(
   post_student.PostStudent postStudent =
       post_student.PostStudent.fromJson(json.decode(response.body));
 
+  refresh();
   if (response.statusCode == 200) {
     showDialog(
       context: context,
