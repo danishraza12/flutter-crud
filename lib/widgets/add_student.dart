@@ -76,103 +76,245 @@ class _AddStudentState extends State<AddStudent> {
       pdf.addPage(pw.Page(
           pageFormat: PdfPageFormat.a4,
           build: (pw.Context context) {
-            return pw.Expanded(
-              child: pw.Column(
-                  mainAxisAlignment: pw.MainAxisAlignment.center,
-                  crossAxisAlignment: pw.CrossAxisAlignment.center,
-                  children: <pw.Widget>[
-                    pw.Container(
-                      margin: pw.EdgeInsets.all(8.0),
+            return pw.Flexible(
+              child: pw.Row(
+                // mainAxisAlignment: pw.MainAxisAlignment.start,
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: <pw.Widget>[
+                  pw.Container(
+                    alignment: pw.Alignment.topLeft,
+                    child: pw.Container(
+                      margin: pw.EdgeInsets.all(1.0),
                       child: pw.Table(
                         // defaultColumnWidth: pw.FixedColumnWidth(200.0),
                         border: pw.TableBorder.all(
                             // color: Colors.black,
                             style: pw.BorderStyle.solid,
-                            width: 2),
+                            width: 1),
                         children: [
                           pw.TableRow(children: [
-                            pw.Column(children: [
-                              pw.Text('Name',
-                                  style: pw.TextStyle(
-                                      fontSize: 12.0,
-                                      fontWeight: pw.FontWeight.bold))
-                            ]),
-                            pw.Column(children: [
-                              pw.Text('Age',
-                                  style: pw.TextStyle(
-                                      fontSize: 12.0,
-                                      fontWeight: pw.FontWeight.bold))
-                            ]),
-                            pw.Column(children: [
-                              pw.Text('City',
-                                  style: pw.TextStyle(
-                                      fontSize: 12.0,
-                                      fontWeight: pw.FontWeight.bold))
-                            ]),
-                            pw.Column(children: [
-                              pw.Text('Batch',
-                                  style: pw.TextStyle(
-                                      fontSize: 12.0,
-                                      fontWeight: pw.FontWeight.bold))
-                            ]),
-                            pw.Column(children: [
-                              pw.Text('Address',
-                                  style: pw.TextStyle(
-                                      fontSize: 12.0,
-                                      fontWeight: pw.FontWeight.bold))
-                            ]),
-                            pw.Column(children: [
-                              pw.Text('Date of Birth',
-                                  style: pw.TextStyle(
-                                      fontSize: 12.0,
-                                      fontWeight: pw.FontWeight.bold))
-                            ]),
-                            pw.Column(children: [
-                              pw.Text('Father Name',
-                                  style: pw.TextStyle(
-                                      fontSize: 12.0,
-                                      fontWeight: pw.FontWeight.bold))
-                            ]),
-                            pw.Column(children: [
-                              pw.Text('Gender',
-                                  style: pw.TextStyle(
-                                      fontSize: 12.0,
-                                      fontWeight: pw.FontWeight.bold))
-                            ]),
-                            pw.Column(children: [
-                              pw.Text('Roll Number',
-                                  style: pw.TextStyle(
-                                      fontSize: 12.0,
-                                      fontWeight: pw.FontWeight.bold))
-                            ]),
-                            pw.Column(children: [
-                              pw.Text('Degree Status',
-                                  style: pw.TextStyle(
-                                      fontSize: 12.0,
-                                      fontWeight: pw.FontWeight.bold))
-                            ]),
+                            pw.Padding(
+                              padding: pw.EdgeInsets.all(2.0),
+                              child: pw.Column(
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.start,
+                                  children: [
+                                    pw.Text('Name',
+                                        style: pw.TextStyle(
+                                            fontSize: 11.0,
+                                            fontWeight: pw.FontWeight.bold))
+                                  ]),
+                            ),
+                            pw.Padding(
+                              padding: pw.EdgeInsets.all(2.0),
+                              child: pw.Column(
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.start,
+                                  children: [
+                                    pw.Text('Age',
+                                        style: pw.TextStyle(
+                                            fontSize: 11.0,
+                                            fontWeight: pw.FontWeight.bold)),
+                                  ]),
+                            ),
+                            pw.Padding(
+                              padding: pw.EdgeInsets.all(2.0),
+                              child: pw.Column(
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.start,
+                                  children: [
+                                    pw.Text('City',
+                                        style: pw.TextStyle(
+                                            fontSize: 11.0,
+                                            fontWeight: pw.FontWeight.bold))
+                                  ]),
+                            ),
+                            pw.Padding(
+                              padding: pw.EdgeInsets.all(2.0),
+                              child: pw.Column(
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.start,
+                                  children: [
+                                    pw.Text('Batch',
+                                        style: pw.TextStyle(
+                                            fontSize: 11.0,
+                                            fontWeight: pw.FontWeight.bold))
+                                  ]),
+                            ),
+                            pw.Padding(
+                              padding: pw.EdgeInsets.all(2.0),
+                              child: pw.Column(
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.start,
+                                  children: [
+                                    pw.Text('Address',
+                                        style: pw.TextStyle(
+                                            fontSize: 11.0,
+                                            fontWeight: pw.FontWeight.bold))
+                                  ]),
+                            ),
+                            pw.Padding(
+                              padding: pw.EdgeInsets.all(2.0),
+                              child: pw.Column(
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.start,
+                                  children: [
+                                    pw.Text('Date of Birth',
+                                        style: pw.TextStyle(
+                                            fontSize: 11.0,
+                                            fontWeight: pw.FontWeight.bold))
+                                  ]),
+                            ),
+                            pw.Padding(
+                              padding: pw.EdgeInsets.all(2.0),
+                              child: pw.Column(
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.start,
+                                  children: [
+                                    pw.Text('Father Name',
+                                        style: pw.TextStyle(
+                                            fontSize: 11.0,
+                                            fontWeight: pw.FontWeight.bold))
+                                  ]),
+                            ),
+                            pw.Padding(
+                              padding: pw.EdgeInsets.all(2.0),
+                              child: pw.Column(
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.start,
+                                  children: [
+                                    pw.Text('Gender',
+                                        style: pw.TextStyle(
+                                            fontSize: 11.0,
+                                            fontWeight: pw.FontWeight.bold))
+                                  ]),
+                            ),
+                            pw.Padding(
+                              padding: pw.EdgeInsets.all(2.0),
+                              child: pw.Column(
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.start,
+                                  children: [
+                                    pw.Text('Roll Number',
+                                        style: pw.TextStyle(
+                                            fontSize: 11.0,
+                                            fontWeight: pw.FontWeight.bold))
+                                  ]),
+                            ),
+                            pw.Padding(
+                              padding: pw.EdgeInsets.all(2.0),
+                              child: pw.Column(
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.start,
+                                  children: [
+                                    pw.Text('Degree Status',
+                                        style: pw.TextStyle(
+                                            fontSize: 11.0,
+                                            fontWeight: pw.FontWeight.bold))
+                                  ]),
+                            ),
                           ]),
                           for (var student in FetchedStudents)
                             pw.TableRow(children: [
-                              pw.Column(children: [pw.Text(student.name)]),
-                              pw.Column(children: [pw.Text(student.age)]),
-                              pw.Column(children: [pw.Text(student.city)]),
-                              pw.Column(children: [pw.Text(student.batch)]),
-                              pw.Column(children: [pw.Text(student.address)]),
-                              pw.Column(
-                                  children: [pw.Text(student.dateOfBirth)]),
-                              pw.Column(
-                                  children: [pw.Text(student.fatherName)]),
-                              pw.Column(children: [pw.Text(student.gender)]),
-                              pw.Column(
-                                  children: [pw.Text(student.rollNumber)]),
-                              pw.Column(
-                                  children: [pw.Text(student.degreeStatus)]),
+                              pw.Padding(
+                                padding: pw.EdgeInsets.all(2.0),
+                                child: pw.Column(children: [
+                                  pw.Text(
+                                    student.name,
+                                    style: pw.TextStyle(fontSize: 10.0),
+                                  )
+                                ]),
+                              ),
+                              pw.Padding(
+                                padding: pw.EdgeInsets.all(2.0),
+                                child: pw.Column(children: [
+                                  pw.Text(
+                                    student.age,
+                                    style: pw.TextStyle(fontSize: 10.0),
+                                  )
+                                ]),
+                              ),
+                              pw.Padding(
+                                padding: pw.EdgeInsets.all(2.0),
+                                child: pw.Column(children: [
+                                  pw.Text(
+                                    student.city,
+                                    style: pw.TextStyle(fontSize: 10.0),
+                                  )
+                                ]),
+                              ),
+                              pw.Padding(
+                                padding: pw.EdgeInsets.all(2.0),
+                                child: pw.Column(children: [
+                                  pw.Text(
+                                    student.batch,
+                                    style: pw.TextStyle(fontSize: 10.0),
+                                  )
+                                ]),
+                              ),
+                              pw.Padding(
+                                padding: pw.EdgeInsets.all(2.0),
+                                child: pw.Column(children: [
+                                  pw.Text(
+                                    student.address,
+                                    style: pw.TextStyle(fontSize: 10.0),
+                                  )
+                                ]),
+                              ),
+                              pw.Padding(
+                                padding: pw.EdgeInsets.all(2.0),
+                                child: pw.Column(children: [
+                                  pw.Text(
+                                    student.dateOfBirth,
+                                    style: pw.TextStyle(fontSize: 10.0),
+                                  )
+                                ]),
+                              ),
+                              pw.Padding(
+                                padding: pw.EdgeInsets.all(2.0),
+                                child: pw.Column(children: [
+                                  pw.Text(
+                                    student.fatherName,
+                                    style: pw.TextStyle(fontSize: 10.0),
+                                  )
+                                ]),
+                              ),
+                              pw.Padding(
+                                padding: pw.EdgeInsets.all(2.0),
+                                child: pw.Column(children: [
+                                  pw.Text(
+                                    student.gender,
+                                    style: pw.TextStyle(fontSize: 10.0),
+                                  )
+                                ]),
+                              ),
+                              pw.Padding(
+                                padding: pw.EdgeInsets.all(2.0),
+                                child: pw.Column(children: [
+                                  pw.Text(
+                                    student.rollNumber,
+                                    style: pw.TextStyle(fontSize: 10.0),
+                                  )
+                                ]),
+                              ),
+                              pw.Padding(
+                                padding: pw.EdgeInsets.all(2.0),
+                                child: pw.Column(children: [
+                                  pw.Text(
+                                    student.degreeStatus,
+                                    style: pw.TextStyle(fontSize: 10.0),
+                                  )
+                                ]),
+                              ),
                             ])
                         ],
                       ),
+                      // ),
+                      // ],
                     ),
-                  ]),
+                  ),
+                ],
+              ),
             );
           }));
     }
@@ -309,7 +451,7 @@ class _AddStudentState extends State<AddStudent> {
                 key: Key('Batch'),
                 controller: BatchController,
                 inputFormatters: [
-                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
+                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z0-9 ]")),
                 ],
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -327,7 +469,7 @@ class _AddStudentState extends State<AddStudent> {
                 key: Key('Address'),
                 controller: AddressController,
                 inputFormatters: [
-                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
+                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z0-9 ]")),
                 ],
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -345,7 +487,7 @@ class _AddStudentState extends State<AddStudent> {
                 key: Key('Date of Birth'),
                 controller: DateOfBirthController,
                 inputFormatters: [
-                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
+                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z0-9 ]")),
                 ],
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -400,7 +542,7 @@ class _AddStudentState extends State<AddStudent> {
                 key: Key('Roll Number'),
                 controller: RollNumberController,
                 inputFormatters: [
-                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
+                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z0-9 ]")),
                 ],
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
