@@ -242,6 +242,7 @@ class _AllStudentsState extends State<AllStudents> {
                 );
 
                 /* Card creation code for student list */
+
                 //     Row(
                 //   children: <Widget>[
                 //     Expanded(
@@ -373,6 +374,7 @@ class _AllStudentsState extends State<AllStudents> {
                 // );
 
                 // Row ends here
+
               } else {
                 return Padding(
                     padding: const EdgeInsets.only(top: 15, left: 20),

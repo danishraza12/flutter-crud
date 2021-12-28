@@ -25,6 +25,9 @@ class MyApp extends StatelessWidget {
         routes: {
           '/all': (context) => const AllStudents(),
         },
-        home: MyDrawer());
+        //Passing value to class/widget using constructor
+        home: MyDrawer(
+          testVar: "testVar passed from MyDrawer",
+        ));
   }
 }

@@ -4,8 +4,13 @@ import 'package:flutter/material.dart';
 import './add_student.dart';
 
 class MyDrawer extends StatelessWidget {
+  final testVar;
+
+  MyDrawer({@required this.testVar});
+
   @override
   Widget build(BuildContext context) {
+    // print("testVar: $testVar");
     return Scaffold(
         drawer: Drawer(
           child: Container(
