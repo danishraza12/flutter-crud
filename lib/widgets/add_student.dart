@@ -587,17 +587,17 @@ class _AddStudentState extends State<AddStudent> {
                   isExpanded: true,
                   hint: Text(
                     "Years of Experience",
-                    style: TextStyle(color: Colors.grey),
+                    style: TextStyle(color: Colors.black45),
                   ),
                   icon: const Icon(
                     Icons.arrow_downward,
-                    color: Colors.lightBlueAccent,
+                    color: Colors.black45,
                   ),
                   elevation: 16,
-                  style: const TextStyle(color: Colors.lightBlueAccent),
+                  style: const TextStyle(color: Colors.black45),
                   underline: Container(
                     height: 2,
-                    color: Colors.lightBlueAccent,
+                    color: Colors.black45,
                   ),
                   value: dropdownValue,
                   onChanged: (String? newValue) {
