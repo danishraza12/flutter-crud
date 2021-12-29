@@ -581,47 +581,42 @@ class _AddStudentState extends State<AddStudent> {
             ),
             ResponsiveGridCol(
               lg: 4,
-              child: Align(
-                alignment: Alignment.center,
-                child: Container(
-                  // width: 300,
-                  margin: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
-                  alignment: Alignment.center,
-                  child: DropdownButton<String>(
-                    isExpanded: true,
-                    hint: Text(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
+                child: DropdownButton<String>(
+                  isExpanded: true,
+                  hint: Text(
+                    "Years of Experience",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  icon: const Icon(
+                    Icons.arrow_downward,
+                    color: Colors.lightBlueAccent,
+                  ),
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.lightBlueAccent),
+                  underline: Container(
+                    height: 2,
+                    color: Colors.lightBlueAccent,
+                  ),
+                  value: dropdownValue,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      dropdownValue = newValue!;
+                    });
+                  },
+                  items: dropDownList
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  disabledHint: Align(
+                    alignment: Alignment.center,
+                    child: Text(
                       "Years of Experience",
                       style: TextStyle(color: Colors.grey),
-                    ),
-                    icon: const Icon(
-                      Icons.arrow_downward,
-                      color: Colors.lightBlueAccent,
-                    ),
-                    elevation: 16,
-                    style: const TextStyle(color: Colors.lightBlueAccent),
-                    underline: Container(
-                      height: 2,
-                      color: Colors.lightBlueAccent,
-                    ),
-                    value: dropdownValue,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownValue = newValue!;
-                      });
-                    },
-                    items: dropDownList
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    disabledHint: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Years of Experience",
-                        style: TextStyle(color: Colors.grey),
-                      ),
                     ),
                   ),
                 ),
