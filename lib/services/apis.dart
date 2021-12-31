@@ -201,7 +201,7 @@ Future<post_student.PostStudent> deleteStudent(
 // Functions to GET all countries / Country list API
 Future<List<String>?> getAllCountries() async {
   final response = await http
-      .get(Uri.parse('https://localhost:7079/api/Country'), headers: {
+      .get(Uri.parse('https://localhost:7175/api/Country'), headers: {
     "Accept": "application/json",
     "Access-Control_Allow_Origin": "*"
   });
@@ -218,14 +218,15 @@ Future<List<String>?> getAllCountries() async {
 // Functions to GET all Cities list API
 Future<List<String>?> getCities(String? country) async {
   Map data = {'country': country};
-  final response =
-      await http.post(Uri.parse('https://localhost:7079/api/Country'),
-          headers: {
-            "Accept": "application/json",
-            "Access-Control_Allow_Origin": "*",
-            "Content-Type": "application/json"
-          },
-          body: json.encode(data));
+  final response = await http.post(
+    Uri.parse('https://localhost:7175/api/Country'),
+    headers: {
+      "Accept": "application/json",
+      "Access-Control_Allow_Origin": "*",
+      "Content-Type": "application/json"
+    },
+    body: json.encode(data),
+  );
 
   if (response.statusCode == 200) {
     final parsed = json.decode(response.body);
