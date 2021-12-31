@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../models/countries.dart' as countries;
 import '../models/cities.dart' as cities;
+import '../models/countries_and_cities.dart' as countries_and_cities;
 
 // Function to GET all students
 Future<List<student.Student>> fetchStudents() async {
@@ -201,7 +202,7 @@ Future<post_student.PostStudent> deleteStudent(
 // Functions to GET all countries / Country list API
 Future<List<String>?> getAllCountries() async {
   final response = await http
-      .get(Uri.parse('https://localhost:7175/api/Country'), headers: {
+      .get(Uri.parse('https://localhost:7175/api/Country/countries'), headers: {
     "Accept": "application/json",
     "Access-Control_Allow_Origin": "*"
   });
@@ -232,6 +233,30 @@ Future<List<String>?> getCities(String? country) async {
     final parsed = json.decode(response.body);
 
     return cities.CitiesModel.fromJson(parsed).cities;
+  } else {
+    throw Exception('Failed to load cities');
+  }
+}
+
+// Functions to GET all Countries and Cities list API
+Future<countries_and_cities.CountriesAndCities> getCountriesAndCities() async {
+  final response = await http.get(
+    Uri.parse('https://localhost:7175/api/Country'),
+    headers: {
+      "Accept": "application/json",
+      "Access-Control_Allow_Origin": "*",
+      "Content-Type": "application/json"
+    },
+  );
+
+  if (response.statusCode == 200) {
+    final parsed = json.decode(response.body);
+
+    // print("Parsed: $parsed");
+
+    final testParse = countries_and_cities.CountriesAndCities.fromJson(parsed);
+    print("TestParse: ${testParse.data![0].country}");
+    return countries_and_cities.CountriesAndCities.fromJson(parsed);
   } else {
     throw Exception('Failed to load cities');
   }

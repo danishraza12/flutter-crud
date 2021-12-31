@@ -15,6 +15,7 @@ import 'package:syncfusion_flutter_xlsio/xlsio.dart' as excel_sheet;
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:open_file/open_file.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import '../models/countries_and_cities.dart' as countries_and_cities;
 import 'package:responsive_grid/responsive_grid.dart';
 
 class AddStudent extends StatefulWidget {
@@ -63,11 +64,15 @@ class _AddStudentState extends State<AddStudent> {
   String? cityDropDownValue;
   late Future<List<String>?> cityDropDownEntries = Future.value([]);
 
+  // For Both Countries and Cities
+  late Future<countries_and_cities.CountriesAndCities> countriesAndCities;
+
   @override
   void initState() {
     super.initState();
     countryDropDownEntries = getAllCountries();
     futureStudent = fetchStudents();
+    countriesAndCities = getCountriesAndCities();
   }
 
   void refreshStudents() {
