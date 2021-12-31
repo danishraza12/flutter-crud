@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutterform/models/countries.dart';
 import '../services/apis.dart';
 import 'dart:io' as io;
 import 'package:pdf/pdf.dart';
@@ -9,6 +10,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'dart:convert';
 import 'package:universal_html/html.dart' as html;
 import '../models/student.dart' as student;
+import '../models/countries.dart' as countries;
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as excel_sheet;
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:open_file/open_file.dart';
@@ -23,6 +25,7 @@ class AddStudent extends StatefulWidget {
 }
 
 class _AddStudentState extends State<AddStudent> {
+  // For value extraction
   final NameController = TextEditingController();
   final AgeController = TextEditingController();
   final CityController = TextEditingController();
@@ -46,27 +49,30 @@ class _AddStudentState extends State<AddStudent> {
   bool _validateRollNumber = false;
   bool _validateDegreeStatus = false;
 
+  // PDF
   pw.Document pdf = pw.Document();
 
+  // Student List
   late Future<List<student.Student>> futureStudent;
-  String? dropdownValue;
-  List<String> dropDownList = [
-    '1 Year',
-    '2 Years',
-    '3 Years',
-    '4 Years',
-    '5+ Years'
-  ];
+
+  // For Country DropDown
+  String? countryDropDownValue;
+  late Future<List<String>?> countryDropDownEntries;
+
+  // For City DropDown
+  String? cityDropDownValue;
+  late Future<List<String>?> cityDropDownEntries = Future.value([]);
 
   @override
   void initState() {
     super.initState();
+    countryDropDownEntries = getAllCountries();
     futureStudent = fetchStudents();
   }
 
   void refreshStudents() {
     setState(() {
-      // futureStudent = await Future.value(fetchStudents()); // Without future
+      // futureStudent = await Future.value(fetchStudents()); // Extract value from future
       futureStudent = Future.value(fetchStudents());
       // futureStudent = fetchStudents();
     });
@@ -581,45 +587,66 @@ class _AddStudentState extends State<AddStudent> {
             ),
             ResponsiveGridCol(
               lg: 4,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
-                child: DropdownButton<String>(
-                  isExpanded: true,
-                  hint: Text(
-                    "Years of Experience",
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  icon: const Icon(
-                    Icons.arrow_downward,
-                    color: Colors.lightBlueAccent,
-                  ),
-                  elevation: 16,
-                  style: const TextStyle(color: Colors.lightBlueAccent),
-                  underline: Container(
-                    height: 2,
-                    color: Colors.lightBlueAccent,
-                  ),
-                  value: dropdownValue,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      dropdownValue = newValue!;
-                    });
-                  },
-                  items: dropDownList
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  disabledHint: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Years of Experience",
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  ),
-                ),
+              child: Align(
+                alignment: Alignment.center,
+                child: Padding(
+                    padding: const EdgeInsets.only(top: 10, bottom: 15),
+                    child: FutureBuilder<List<String>?>(
+                        future: countryDropDownEntries,
+                        builder: (context, AsyncSnapshot snapshot) {
+                          if (snapshot.data != null) {
+                            if (snapshot.hasData) {
+                              return DropdownButton<String>(
+                                isExpanded: true,
+                                hint: Text(
+                                  "Country",
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                                icon: const Icon(
+                                  Icons.arrow_downward,
+                                  color: Colors.grey,
+                                ),
+                                elevation: 16,
+                                style: const TextStyle(color: Colors.grey),
+                                underline: Container(
+                                  height: 2,
+                                  color: Colors.grey,
+                                ),
+                                value: countryDropDownValue,
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    countryDropDownValue = newValue!;
+                                    cityDropDownEntries = getCities(newValue);
+                                  });
+                                  // refreshCityDropdown(newValue);
+                                },
+                                items: snapshot.data
+                                    .map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                disabledHint: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "Country",
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ),
+                              );
+                            } else {
+                              return CircularProgressIndicator();
+                            }
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
+                          }
+                          // By default, show a loading spinner.
+                          else {
+                            return CircularProgressIndicator(); // loading
+                          }
+                        })),
               ),
             ),
             ResponsiveGridCol(
@@ -649,6 +676,66 @@ class _AddStudentState extends State<AddStudent> {
               lg: 4,
               child: Align(
                 alignment: Alignment.center,
+                child: Padding(
+                    padding: const EdgeInsets.only(top: 10, bottom: 15),
+                    child: FutureBuilder<List<String>?>(
+                        future: cityDropDownEntries,
+                        initialData: [],
+                        builder: (context, AsyncSnapshot snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else if (snapshot.data != null) {
+                            if (snapshot.hasData) {
+                              return DropdownButton<String>(
+                                isExpanded: true,
+                                hint: Text(
+                                  "City",
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                                icon: const Icon(
+                                  Icons.arrow_downward,
+                                  color: Colors.grey,
+                                ),
+                                elevation: 16,
+                                style: const TextStyle(color: Colors.grey),
+                                underline: Container(
+                                  height: 2,
+                                  color: Colors.grey,
+                                ),
+                                value: cityDropDownValue,
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    cityDropDownValue = newValue!;
+                                  });
+                                },
+                                items: snapshot.data
+                                    .map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                disabledHint: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "City",
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ),
+                              );
+                            } else {
+                              return CircularProgressIndicator();
+                            }
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
+                          }
+                          // By default, show a loading spinner.
+                          else {
+                            return CircularProgressIndicator(); // loading
+                          }
+                        })),
               ),
             ),
             ResponsiveGridCol(
