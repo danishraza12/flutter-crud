@@ -63,7 +63,7 @@ class _AddStudentState extends State<AddStudent> {
   // For City Dropdown
   String? cityDropDownValue;
   late Future<List<String>?> cityDropDownEntries = Future.value([]);
-  late List<String> extractedCityDropDownEntries;
+  late List<String> extractedCityDropDownEntries = [];
 
   // For Both Countries and Cities
   late Future<countries_and_cities.CountriesAndCities> countriesAndCities;
@@ -643,19 +643,14 @@ class _AddStudentState extends State<AddStudent> {
                                         countryDropDownValue = newValue!;
 
                                         var extractedObject =
-                                            (snapshot.data.data).where((e) =>
-                                                e.country.toString() ==
-                                                newValue.toString());
+                                            (snapshot.data.data)
+                                                .where((e) =>
+                                                    e.country.toString() ==
+                                                    newValue.toString())
+                                                .toList();
 
-                                        (snapshot.data.data).where((e) =>
-                                            e.country.toString() ==
-                                            newValue.toString());
-
-                                        print(
-                                            "Extracted Cities: ${extractedObject.length}");
-
-                                        /* cityDropDownEntries =
-                                             getCities(newValue); */
+                                        extractedCityDropDownEntries =
+                                            extractedObject[0].cities;
                                       });
                                       // refreshCityDropdown(newValue);
                                     },
@@ -748,7 +743,7 @@ class _AddStudentState extends State<AddStudent> {
                                     cityDropDownValue = newValue!;
                                   });
                                 },
-                                items: snapshot.data
+                                items: extractedCityDropDownEntries
                                     .map<DropdownMenuItem<String>>(
                                         (String value) {
                                   return DropdownMenuItem<String>(
