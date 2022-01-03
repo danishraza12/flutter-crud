@@ -596,7 +596,8 @@ class _AddStudentState extends State<AddStudent> {
               child: Align(
                 alignment: Alignment.center,
                 child: Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 15),
+                    padding:
+                        const EdgeInsets.only(top: 15, left: 20, right: 20),
                     child:
                         FutureBuilder<countries_and_cities.CountriesAndCities>(
                             future: countriesAndCities,
@@ -701,7 +702,7 @@ class _AddStudentState extends State<AddStudent> {
               child: Align(
                 alignment: Alignment.center,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 10, bottom: 15),
+                  padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
                   child: DropdownButton<String>(
                     isExpanded: true,
                     hint: Text(
