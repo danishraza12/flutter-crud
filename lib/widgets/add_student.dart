@@ -58,11 +58,12 @@ class _AddStudentState extends State<AddStudent> {
 
   // For Country DropDown
   String? countryDropDownValue;
-  late Future<List<String>?> countryDropDownEntries;
+  late List<String?> countryDropDownEntries;
 
   // For City Dropdown
   String? cityDropDownValue;
   late Future<List<String>?> cityDropDownEntries = Future.value([]);
+  late List<String> extractedCityDropDownEntries;
 
   // For Both Countries and Cities
   late Future<countries_and_cities.CountriesAndCities> countriesAndCities;
@@ -70,9 +71,19 @@ class _AddStudentState extends State<AddStudent> {
   @override
   void initState() {
     super.initState();
-    countryDropDownEntries = getAllCountries();
+    // countryDropDownEntries = getAllCountries();
     futureStudent = fetchStudents();
     countriesAndCities = getCountriesAndCities();
+  }
+
+  void extractCountries() async {
+    // countriesAndCities = getCountriesAndCities();
+    var simpleCountriesAndCities = await Future.value(countriesAndCities);
+
+    // Extracting countries from list
+    var countriesOnly =
+        simpleCountriesAndCities.data!.map((e) => e.country).toList();
+    countryDropDownEntries = countriesOnly;
   }
 
   void refreshStudents() {
@@ -596,62 +607,85 @@ class _AddStudentState extends State<AddStudent> {
                 alignment: Alignment.center,
                 child: Padding(
                     padding: const EdgeInsets.only(top: 10, bottom: 15),
-                    child: FutureBuilder<List<String>?>(
-                        future: countryDropDownEntries,
-                        builder: (context, AsyncSnapshot snapshot) {
-                          if (snapshot.data != null) {
-                            if (snapshot.hasData) {
-                              return DropdownButton<String>(
-                                isExpanded: true,
-                                hint: Text(
-                                  "Country",
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                                icon: const Icon(
-                                  Icons.arrow_downward,
-                                  color: Colors.grey,
-                                ),
-                                elevation: 16,
-                                style: const TextStyle(color: Colors.grey),
-                                underline: Container(
-                                  height: 2,
-                                  color: Colors.grey,
-                                ),
-                                value: countryDropDownValue,
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    countryDropDownValue = newValue!;
-                                    cityDropDownEntries = getCities(newValue);
-                                  });
-                                  // refreshCityDropdown(newValue);
-                                },
-                                items: snapshot.data
-                                    .map<DropdownMenuItem<String>>(
-                                        (String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
+                    child:
+                        FutureBuilder<countries_and_cities.CountriesAndCities>(
+                            future: countriesAndCities,
+                            // initialData: [],
+                            builder: (context, AsyncSnapshot snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return CircularProgressIndicator();
+                              } else if (snapshot.data != null) {
+                                if (snapshot.hasData) {
+                                  // Extracting countries from fetched data
+                                  var extractedCountries = (snapshot.data.data)
+                                      .map((e) => e.country)
+                                      .toList();
+                                  return DropdownButton<String>(
+                                    isExpanded: true,
+                                    hint: Text(
+                                      "Country",
+                                      style: TextStyle(color: Colors.grey),
+                                    ),
+                                    icon: const Icon(
+                                      Icons.arrow_downward,
+                                      color: Colors.grey,
+                                    ),
+                                    elevation: 16,
+                                    style: const TextStyle(color: Colors.grey),
+                                    underline: Container(
+                                      height: 2,
+                                      color: Colors.grey,
+                                    ),
+                                    value: countryDropDownValue,
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        countryDropDownValue = newValue!;
+
+                                        var extractedObject =
+                                            (snapshot.data.data).where((e) =>
+                                                e.country.toString() ==
+                                                newValue.toString());
+
+                                        (snapshot.data.data).where((e) =>
+                                            e.country.toString() ==
+                                            newValue.toString());
+
+                                        print(
+                                            "Extracted Cities: ${extractedObject.length}");
+
+                                        /* cityDropDownEntries =
+                                             getCities(newValue); */
+                                      });
+                                      // refreshCityDropdown(newValue);
+                                    },
+                                    items: extractedCountries
+                                        .map<DropdownMenuItem<String>>(
+                                          (value) => DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(value.toString()),
+                                          ),
+                                        )
+                                        .toList(),
+                                    disabledHint: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Country",
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
+                                    ),
                                   );
-                                }).toList(),
-                                disabledHint: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "Country",
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                ),
-                              );
-                            } else {
-                              return CircularProgressIndicator();
-                            }
-                          } else if (snapshot.hasError) {
-                            return Text('${snapshot.error}');
-                          }
-                          // By default, show a loading spinner.
-                          else {
-                            return CircularProgressIndicator(); // loading
-                          }
-                        })),
+                                } else {
+                                  return CircularProgressIndicator();
+                                }
+                              } else if (snapshot.hasError) {
+                                return Text('${snapshot.error}');
+                              }
+                              // By default, show a loading spinner.
+                              else {
+                                return CircularProgressIndicator(); // loading
+                              }
+                            })),
               ),
             ),
             ResponsiveGridCol(
@@ -754,6 +788,7 @@ class _AddStudentState extends State<AddStudent> {
                     child: ElevatedButton(
                       key: Key('Add Record Button'),
                       onPressed: () {
+                        extractCountries();
                         if (NameController.text.isEmpty ||
                             AgeController.text.isEmpty ||
                             CityController.text.isEmpty ||

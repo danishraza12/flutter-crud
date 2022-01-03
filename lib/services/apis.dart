@@ -255,7 +255,6 @@ Future<countries_and_cities.CountriesAndCities> getCountriesAndCities() async {
     // print("Parsed: $parsed");
 
     final testParse = countries_and_cities.CountriesAndCities.fromJson(parsed);
-    print("TestParse: ${testParse.data![0].country}");
     return countries_and_cities.CountriesAndCities.fromJson(parsed);
   } else {
     throw Exception('Failed to load cities');
