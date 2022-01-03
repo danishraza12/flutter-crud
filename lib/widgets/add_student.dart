@@ -62,7 +62,7 @@ class _AddStudentState extends State<AddStudent> {
 
   // For City Dropdown
   String? cityDropDownValue;
-  late Future<List<String>?> cityDropDownEntries = Future.value([]);
+  // late Future<List<String>?> cityDropDownEntries = Future.value([]); //Initialize empty future
   late List<String> extractedCityDropDownEntries = [];
 
   // For Both Countries and Cities
@@ -71,19 +71,9 @@ class _AddStudentState extends State<AddStudent> {
   @override
   void initState() {
     super.initState();
-    // countryDropDownEntries = getAllCountries();
+    // countryDropDownEntries = getAllCountriesOnly();
     futureStudent = fetchStudents();
     countriesAndCities = getCountriesAndCities();
-  }
-
-  void extractCountries() async {
-    // countriesAndCities = getCountriesAndCities();
-    var simpleCountriesAndCities = await Future.value(countriesAndCities);
-
-    // Extracting countries from list
-    var countriesOnly =
-        simpleCountriesAndCities.data!.map((e) => e.country).toList();
-    countryDropDownEntries = countriesOnly;
   }
 
   void refreshStudents() {
@@ -711,65 +701,45 @@ class _AddStudentState extends State<AddStudent> {
               child: Align(
                 alignment: Alignment.center,
                 child: Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 15),
-                    child: FutureBuilder<List<String>?>(
-                        future: cityDropDownEntries,
-                        initialData: [],
-                        builder: (context, AsyncSnapshot snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return CircularProgressIndicator();
-                          } else if (snapshot.data != null) {
-                            if (snapshot.hasData) {
-                              return DropdownButton<String>(
-                                isExpanded: true,
-                                hint: Text(
-                                  "City",
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                                icon: const Icon(
-                                  Icons.arrow_downward,
-                                  color: Colors.grey,
-                                ),
-                                elevation: 16,
-                                style: const TextStyle(color: Colors.grey),
-                                underline: Container(
-                                  height: 2,
-                                  color: Colors.grey,
-                                ),
-                                value: cityDropDownValue,
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    cityDropDownValue = newValue!;
-                                  });
-                                },
-                                items: extractedCityDropDownEntries
-                                    .map<DropdownMenuItem<String>>(
-                                        (String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                                disabledHint: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "City",
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                ),
-                              );
-                            } else {
-                              return CircularProgressIndicator();
-                            }
-                          } else if (snapshot.hasError) {
-                            return Text('${snapshot.error}');
-                          }
-                          // By default, show a loading spinner.
-                          else {
-                            return CircularProgressIndicator(); // loading
-                          }
-                        })),
+                  padding: const EdgeInsets.only(top: 10, bottom: 15),
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    hint: Text(
+                      "City",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    icon: const Icon(
+                      Icons.arrow_downward,
+                      color: Colors.grey,
+                    ),
+                    elevation: 16,
+                    style: const TextStyle(color: Colors.grey),
+                    underline: Container(
+                      height: 2,
+                      color: Colors.grey,
+                    ),
+                    value: cityDropDownValue,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        cityDropDownValue = newValue!;
+                      });
+                    },
+                    items: extractedCityDropDownEntries
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    disabledHint: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "City",
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
             ResponsiveGridCol(
@@ -783,7 +753,6 @@ class _AddStudentState extends State<AddStudent> {
                     child: ElevatedButton(
                       key: Key('Add Record Button'),
                       onPressed: () {
-                        extractCountries();
                         if (NameController.text.isEmpty ||
                             AgeController.text.isEmpty ||
                             CityController.text.isEmpty ||
